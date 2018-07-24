@@ -445,3 +445,172 @@ Caused by: org.json.JSONException: Module Closed
 	at com.ti.cloudagent.Agent.createSpecificModule(Agent.java:87)
 	at com.ti.cloudagent.Agent.createDeviceDetector(Agent.java:76)
 	... 16 more
+!SESSION 2018-07-19 10:42:47.044 -----------------------------------------------
+eclipse.buildId=4.7.1.M20171009-0410
+java.version=1.8.0_112
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=en_US
+Framework arguments:  -product com.ti.ccstudio.branding.product
+Command-line arguments:  -os win32 -ws win32 -arch x86 -product com.ti.ccstudio.branding.product
+
+!ENTRY com.ti.common.core 4 0 2018-07-19 10:42:53.299
+!MESSAGE path=ccs_base/DebugServer
+
+!ENTRY com.ti.common.core 4 0 2018-07-19 10:42:53.299
+!MESSAGE debugServerDir=C:/ti/ccsv8/ccs_base/DebugServer
+
+!ENTRY org.eclipse.launchbar.core 2 0 2018-07-19 11:02:20.845
+!MESSAGE Enablement expression is missing for descriptor type org.eclipse.cdt.debug.core.coreBuildDescriptorType
+
+!ENTRY org.eclipse.launchbar.core 2 0 2018-07-19 11:02:20.845
+!MESSAGE Enablement expression is missing for config provider for org.eclipse.cdt.debug.core.coreBuildDescriptorType
+
+!ENTRY com.ti.ccstudio.debug 4 0 2018-07-24 10:20:43.869
+!MESSAGE An internal error was logged by 'com.ti.ccstudio.debug'.
+!STACK 0
+java.util.concurrent.ExecutionException: org.json.JSONException: Module Closed
+	at java.util.concurrent.CompletableFuture.reportGet(CompletableFuture.java:357)
+	at java.util.concurrent.CompletableFuture.get(CompletableFuture.java:1895)
+	at com.ti.ccstudio.debug.service.ApplicationService.getConnectedDebugProbes(ApplicationService.java:292)
+	at com.ti.ccstudio.debug.service.ApplicationService.detectXDS110ConnectedProbes(ApplicationService.java:347)
+	at com.ti.ccstudio.debug.service.ApplicationService.initDebugger(ApplicationService.java:409)
+	at com.ti.ccstudio.debug.service.ApplicationService.access$0(ApplicationService.java:399)
+	at com.ti.ccstudio.debug.service.ApplicationService$ThreadContextCache.retrieve(ApplicationService.java:136)
+	at com.ti.ccstudio.debug.dsf.extensions.concurrent.DataCache.wait(DataCache.java:59)
+	at com.ti.ccstudio.debug.service.ApplicationService.getCpuBeingDebugged(ApplicationService.java:1040)
+	at com.ti.ccstudio.debug.launch.CCSLaunchDelegate$2.execute(CCSLaunchDelegate.java:131)
+	at org.eclipse.cdt.dsf.concurrent.Query.run(Query.java:177)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:745)
+Caused by: org.json.JSONException: Module Closed
+	at com.ti.cloudagent.communication.JSONInterface.call(JSONInterface.java:54)
+	at com.ti.cloudagent.Agent.createModule(Agent.java:171)
+	at com.ti.cloudagent.Agent.lambda$createSpecificModule$4(Agent.java:96)
+	at java.util.concurrent.CompletableFuture.uniHandle(CompletableFuture.java:822)
+	at java.util.concurrent.CompletableFuture.uniHandleStage(CompletableFuture.java:834)
+	at java.util.concurrent.CompletableFuture.handle(CompletableFuture.java:2155)
+	at com.ti.cloudagent.Agent.createSpecificModule(Agent.java:87)
+	at com.ti.cloudagent.Agent.createDeviceDetector(Agent.java:76)
+	... 16 more
+
+!ENTRY com.ti.ccstudio.debug 4 0 2018-07-24 10:21:40.065
+!MESSAGE An internal error was logged by 'com.ti.ccstudio.debug'.
+!STACK 0
+java.util.concurrent.ExecutionException: org.json.JSONException: Module Closed
+	at java.util.concurrent.CompletableFuture.reportGet(CompletableFuture.java:357)
+	at java.util.concurrent.CompletableFuture.get(CompletableFuture.java:1895)
+	at com.ti.ccstudio.debug.service.ApplicationService.getConnectedDebugProbes(ApplicationService.java:292)
+	at com.ti.ccstudio.debug.service.ApplicationService.detectXDS110ConnectedProbes(ApplicationService.java:347)
+	at com.ti.ccstudio.debug.service.ApplicationService.initDebugger(ApplicationService.java:409)
+	at com.ti.ccstudio.debug.service.ApplicationService.access$0(ApplicationService.java:399)
+	at com.ti.ccstudio.debug.service.ApplicationService$ThreadContextCache.retrieve(ApplicationService.java:136)
+	at com.ti.ccstudio.debug.dsf.extensions.concurrent.DataCache.wait(DataCache.java:59)
+	at com.ti.ccstudio.debug.service.ApplicationService.getCpuBeingDebugged(ApplicationService.java:1040)
+	at com.ti.ccstudio.debug.launch.CCSLaunchDelegate$2.execute(CCSLaunchDelegate.java:131)
+	at org.eclipse.cdt.dsf.concurrent.Query.run(Query.java:177)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:745)
+Caused by: org.json.JSONException: Module Closed
+	at com.ti.cloudagent.communication.JSONInterface.call(JSONInterface.java:54)
+	at com.ti.cloudagent.Agent.createModule(Agent.java:171)
+	at com.ti.cloudagent.Agent.lambda$createSpecificModule$4(Agent.java:96)
+	at java.util.concurrent.CompletableFuture.uniHandle(CompletableFuture.java:822)
+	at java.util.concurrent.CompletableFuture.uniHandleStage(CompletableFuture.java:834)
+	at java.util.concurrent.CompletableFuture.handle(CompletableFuture.java:2155)
+	at com.ti.cloudagent.Agent.createSpecificModule(Agent.java:87)
+	at com.ti.cloudagent.Agent.createDeviceDetector(Agent.java:76)
+	... 16 more
+
+!ENTRY com.ti.ccstudio.debug 1 0 2018-07-24 10:38:29.593
+!MESSAGE DS_ERROR: Cortex_M3_0: Error: (Error -261 @ 0x0) Invalid response was received from the XDS110. (Emulation package 7.0.188.0) 
+
+
+!ENTRY com.ti.ccstudio.debug 1 0 2018-07-24 10:38:30.105
+!MESSAGE DS_ERROR: Cortex_M3_0: Unable to determine target status after 20 attempts
+
+
+!ENTRY com.ti.ccstudio.debug 1 0 2018-07-24 10:38:30.130
+!MESSAGE DS_ERROR: Cortex_M3_0: Failed to remove the debug state from the target before disconnecting.  There may still be breakpoint op-codes embedded in program memory.  It is recommended that you reset the emulator before you connect and reload your program before you continue debugging
+
+!SESSION 2018-07-24 11:19:27.930 -----------------------------------------------
+eclipse.buildId=4.7.1.M20171009-0410
+java.version=1.8.0_112
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=en_US
+Framework arguments:  -product com.ti.ccstudio.branding.product
+Command-line arguments:  -os win32 -ws win32 -arch x86 -product com.ti.ccstudio.branding.product
+
+!ENTRY com.ti.common.core 4 0 2018-07-24 11:19:36.108
+!MESSAGE path=ccs_base/DebugServer
+
+!ENTRY com.ti.common.core 4 0 2018-07-24 11:19:36.111
+!MESSAGE debugServerDir=C:/ti/ccsv8/ccs_base/DebugServer
+
+!ENTRY com.ti.ccstudio.debug 1 0 2018-07-24 11:23:10.367
+!MESSAGE DS_ERROR: IcePick_C: Error connecting to the target: (Error -242 @ 0x0) A router subpath could not be accessed. The board configuration file is probably incorrect. (Emulation package 7.0.188.0) 
+
+
+!ENTRY com.ti.ccstudio.debug 1 0 2018-07-24 11:23:10.414
+!MESSAGE DS_ERROR: Error connecting to the target:
+(Error -242 @ 0x0)
+A router subpath could not be accessed.
+The board configuration file is probably incorrect.
+(Emulation package 7.0.188.0)
+
+
+!ENTRY org.eclipse.equinox.p2.engine 4 4 2018-07-24 11:23:44.143
+!MESSAGE An error occurred while collecting items to be installed
+!SUBENTRY 1 org.eclipse.equinox.p2.engine 4 0 2018-07-24 11:23:44.143
+!MESSAGE session context was:(profile=epp.package.cpp, phase=org.eclipse.equinox.internal.p2.engine.phases.Collect, operand=, action=).
+!SUBENTRY 1 org.eclipse.equinox.p2.artifact.repository 4 0 2018-07-24 11:23:44.143
+!MESSAGE No repository found containing: org.eclipse.update.feature,com.ti.c2000.support.win32,4.2.5.0
+!SUBENTRY 1 org.eclipse.equinox.p2.artifact.repository 4 0 2018-07-24 11:23:44.143
+!MESSAGE No repository found containing: binary,com.ti.c2000.support.win32_root,4.2.5.0
+!SUBENTRY 1 org.eclipse.equinox.p2.artifact.repository 4 0 2018-07-24 11:23:44.143
+!MESSAGE No repository found containing: org.eclipse.update.feature,com.ti.dsflash.win32,8.1.0.1297
+!SUBENTRY 1 org.eclipse.equinox.p2.artifact.repository 4 0 2018-07-24 11:23:44.143
+!MESSAGE No repository found containing: binary,com.ti.dsflash.win32_root.win32.win32.x86,8.1.0.1297
+!SESSION 2018-07-24 12:14:31.817 -----------------------------------------------
+eclipse.buildId=4.7.1.M20171009-0410
+java.version=1.8.0_112
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=en_US
+Framework arguments:  -product com.ti.ccstudio.branding.product
+Command-line arguments:  -os win32 -ws win32 -arch x86 -product com.ti.ccstudio.branding.product
+
+!ENTRY com.ti.common.core 4 0 2018-07-24 12:14:35.327
+!MESSAGE path=ccs_base/DebugServer
+
+!ENTRY com.ti.common.core 4 0 2018-07-24 12:14:35.329
+!MESSAGE debugServerDir=C:/ti/ccsv8/ccs_base/DebugServer
+
+!ENTRY com.ti.ccstudio.debug 1 0 2018-07-24 12:20:07.458
+!MESSAGE DS_ERROR: Cortex_M3_0: Failed Board Reset: (Error -260 @ 0x0) An attempt to connect to the XDS110 failed. The cause may be one or more of: no XDS110 is connected, invalid firmware update, invalid XDS110 serial number, or faulty USB cable. The firmware and serial number may be updated using the xdsdfu utility found in the .../ccs_base/common/uscif/xds110 directory of your installation. View the ReadMe.txt file there for instructions. (Emulation package 7.0.188.0) 
+
+
+!ENTRY com.ti.ccstudio.debug 1 0 2018-07-24 12:20:07.834
+!MESSAGE DS_ERROR: IcePick_C: Error connecting to the target: (Error -260 @ 0x0) An attempt to connect to the XDS110 failed. The cause may be one or more of: no XDS110 is connected, invalid firmware update, invalid XDS110 serial number, or faulty USB cable. The firmware and serial number may be updated using the xdsdfu utility found in the .../ccs_base/common/uscif/xds110 directory of your installation. View the ReadMe.txt file there for instructions. (Emulation package 7.0.188.0) 
+
+
+!ENTRY com.ti.ccstudio.debug 1 0 2018-07-24 12:20:08.022
+!MESSAGE DS_ERROR: Error connecting to the target:
+(Error -260 @ 0x0)
+An attempt to connect to the XDS110 failed.
+The cause may be one or more of: no XDS110 is connected, invalid
+firmware update, invalid XDS110 serial number, or faulty USB
+cable. The firmware and serial number may be updated using the
+xdsdfu utility found in the .../ccs_base/common/uscif/xds110
+directory of your installation. View the ReadMe.txt file there
+for instructions.
+(Emulation package 7.0.188.0)
+
