@@ -179,7 +179,7 @@ all: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 	@$(MAKE) --no-print-directory -Onone "project_zero_app_cc2650launchxl.out"
 
 dependents:
-	-cd C:/Lab/Flex_IP/Firmware/Ampero_IP/project_zero_stack_cc2650/Debug && $(MAKE) clean all
+	-cd C:/Lab/Flex_IP/Firmware/Ampero_IP/project_zero_stack_cc2650/Debug && $(MAKE) all
 
 # Tool invocations
 project_zero_app_cc2650launchxl.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS) C:/Lab/Flex_IP/Firmware/Ampero_IP/project_zero_stack_cc2650/Debug/project_zero_stack_cc2650.out

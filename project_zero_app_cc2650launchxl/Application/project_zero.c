@@ -35,7 +35,7 @@
  */
 #include <string.h>
 
-#define xdc_runtime_Log_DISABLE_ALL 1  // Add to disable logs from this file
+//#define xdc_runtime_Log_DISABLE_ALL 1  // Add to disable logs from this file
 
 #include <ti/sysbios/knl/Task.h>
 #include <ti/sysbios/knl/Semaphore.h>
@@ -67,7 +67,7 @@
 
 // Bluetooth Developer Studio services
 #include "LED_Service.h"
-#include "Button_Service.h"
+//#include "Button_Service.h"
 #include "Data_Service.h"
 
 //t.n.tmp 161102 include SPI
@@ -216,7 +216,7 @@ static uint8_t rspTxRetry = 0;
 
 
 /* Pin driver handles */
-static PIN_Handle buttonPinHandle;
+//static PIN_Handle buttonPinHandle;
 static PIN_Handle ledPinHandle;
 //t.n.tmp 161107 DAC chip select pin handle
 static PIN_Handle daccsPinHandle;
@@ -224,7 +224,7 @@ static PIN_Handle daccsPinHandle;
 static PIN_Handle adcPinHandle;
 
 /* Global memory storage for a PIN_Config table */
-static PIN_State buttonPinState;
+//static PIN_State buttonPinState;
 static PIN_State ledPinState;
 //t.n.tmp 161107 DAC chip select pin state definition
 static PIN_State daccsPinState;
@@ -276,8 +276,8 @@ static Clock_Struct button0DebounceClock;
 static Clock_Struct button1DebounceClock;
 
 // State of the buttons
-static uint8_t button0State = 0;
-static uint8_t button1State = 0;
+//static uint8_t button0State = 0;
+//static uint8_t button1State = 0;
 
 //t.n.tmp 161115 adc data sengen
 #define SWV_ADC_BUFFER_SIZE 512 //ADC buffer size
@@ -293,31 +293,31 @@ static unsigned short amperoAdcValue[AMPERO_ADC_BUFFER_SIZE];
 #define SWV_CTRL_LED_OFF        0x00
 #define SWV_CTRL_LED_ON         0x01
 #define SWV_CTRL_SPIADC_INIT    0x02
-#define SWV_CTRL_SWV_MEAS       0x03
-#define SWV_CTRL_SWV_DATADISP   0x04
-#define SWV_CTRL_CV_MEAS        0x05
-#define SWV_CTRL_CV_DATADISP    0x06
-#define SWV_CTRL_SWV_MEAS05     0x07
+//#define SWV_CTRL_SWV_MEAS       0x03
+//#define SWV_CTRL_SWV_DATADISP   0x04
+//#define SWV_CTRL_CV_MEAS        0x05
+//#define SWV_CTRL_CV_DATADISP    0x06
+//#define SWV_CTRL_SWV_MEAS05     0x07
 //t.n.tmp 170131
 #define SWV_CTRL_AMPERO_MEAS    0x08
-#define SWV_CTRL_SWV_MEAS06     0x09
+//#define SWV_CTRL_SWV_MEAS06     0x09
 #define SWV_CTRL_AMPERO_STOP    0x0A
 //t.n.tmp 170210
-#define SWV_CTRL_SWV_MEAS07     0x0B
+//#define SWV_CTRL_SWV_MEAS07     0x0B
 
 //t.n.tmp 161208
 //SWV param address
-#define SWV_PARAM_ADDR_INIT_WAIT       0x0001
-#define SWV_PARAM_ADDR_FREQ            0x0002
-#define SWV_PARAM_ADDR_PERIOD          0x0003
-#define SWV_PARAM_ADDR_HIGH_DURATION   0x0004
-#define SWV_PARAM_ADDR_INIT_VOLTAGE    0x0005
-#define SWV_PARAM_ADDR_FINAL_VOLTAGE   0x0006
-#define SWV_PARAM_ADDR_AMPLITUDE       0x0007
-#define SWV_PARAM_ADDR_STEP_VOLTAGE    0x0008
-#define SWV_PARAM_ADDR_OFFSET_VOLTAGE  0x0009
-#define SWV_PARAM_ADDR_INIT_VOLTAGE_OFFSET    0x000A
-#define SWV_PARAM_ADDR_FINAL_VOLTAGE_OFFSET   0x000B
+//#define SWV_PARAM_ADDR_INIT_WAIT       0x0001
+//#define SWV_PARAM_ADDR_FREQ            0x0002
+//#define SWV_PARAM_ADDR_PERIOD          0x0003
+//#define SWV_PARAM_ADDR_HIGH_DURATION   0x0004
+//#define SWV_PARAM_ADDR_INIT_VOLTAGE    0x0005
+//#define SWV_PARAM_ADDR_FINAL_VOLTAGE   0x0006
+//#define SWV_PARAM_ADDR_AMPLITUDE       0x0007
+//#define SWV_PARAM_ADDR_STEP_VOLTAGE    0x0008
+//#define SWV_PARAM_ADDR_OFFSET_VOLTAGE  0x0009
+//#define SWV_PARAM_ADDR_INIT_VOLTAGE_OFFSET    0x000A
+//#define SWV_PARAM_ADDR_FINAL_VOLTAGE_OFFSET   0x000B
 
 //t.n.tmp 170131
 //AMPERO param address
@@ -327,50 +327,50 @@ static unsigned short amperoAdcValue[AMPERO_ADC_BUFFER_SIZE];
 #define SWV_PARAM_ADDR_AMPERO_POTENTIAL_OFFSET  0x000F
 
 //SWV Parameters (default)
-#define SWV_INIT_WAIT       500     //wait time at initial in 10ms
-#define SWV_FREQ            10       //frequency in Hz
-#define SWV_PERIOD          1000/SWV_FREQ   //period in ms
-#define SWV_HIGH_DURATION   SWV_PERIOD/2    //high duration in ms
-#define SWV_INIT_VOLTAGE    300     //initial voltage in mV
-#define SWV_FINAL_VOLTAGE   1200    //initial voltage in mV
-#define SWV_AMPLITUDE       250     //amplitude in mV
-#define SWV_STEP_VOLTAGE    40      //step voltage in mV
-#define SWV_OFFSET_VOLTAGE  1500    //offset voltage in mV
+//#define SWV_INIT_WAIT       500     //wait time at initial in 10ms
+//#define SWV_FREQ            10       //frequency in Hz
+//#define SWV_PERIOD          1000/SWV_FREQ   //period in ms
+//#define SWV_HIGH_DURATION   SWV_PERIOD/2    //high duration in ms
+//#define SWV_INIT_VOLTAGE    300     //initial voltage in mV
+//#define SWV_FINAL_VOLTAGE   1200    //initial voltage in mV
+//#define SWV_AMPLITUDE       250     //amplitude in mV
+//#define SWV_STEP_VOLTAGE    40      //step voltage in mV
+//#define SWV_OFFSET_VOLTAGE  1500    //offset voltage in mV
 
-static unsigned short swvInitWait       = SWV_INIT_WAIT;
-static unsigned short swvFreq           = SWV_FREQ;
-static unsigned short swvPeriod         = SWV_PERIOD;
-static unsigned short swvHighDuration   = SWV_HIGH_DURATION;
-static unsigned short swvInitVoltage    = SWV_INIT_VOLTAGE;
-static unsigned short swvFinalVoltage   = SWV_FINAL_VOLTAGE;
-static unsigned short swvAmplitude      = SWV_AMPLITUDE;
-static unsigned short swvStepVoltage    = SWV_STEP_VOLTAGE;
-static unsigned short swvOffsetVoltage  = SWV_OFFSET_VOLTAGE;
-
-static unsigned short swvInitVoltageOffset    = SWV_INIT_VOLTAGE + SWV_OFFSET_VOLTAGE;
-static unsigned short swvFinalVoltageOffset   = SWV_FINAL_VOLTAGE + SWV_OFFSET_VOLTAGE;
+//static unsigned short swvInitWait       = SWV_INIT_WAIT;
+//static unsigned short swvFreq           = SWV_FREQ;
+//static unsigned short swvPeriod         = SWV_PERIOD;
+//static unsigned short swvHighDuration   = SWV_HIGH_DURATION;
+//static unsigned short swvInitVoltage    = SWV_INIT_VOLTAGE;
+//static unsigned short swvFinalVoltage   = SWV_FINAL_VOLTAGE;
+//static unsigned short swvAmplitude      = SWV_AMPLITUDE;
+//static unsigned short swvStepVoltage    = SWV_STEP_VOLTAGE;
+//static unsigned short swvOffsetVoltage  = SWV_OFFSET_VOLTAGE;
+//
+//static unsigned short swvInitVoltageOffset    = SWV_INIT_VOLTAGE + SWV_OFFSET_VOLTAGE;
+//static unsigned short swvFinalVoltageOffset   = SWV_FINAL_VOLTAGE + SWV_OFFSET_VOLTAGE;
 
 //t.n.tmp 161209
 //CV Parameters (default)
-#define CV_SCAN_RATE        100     //scan rate (mV/sec)
-#define CV_LOWER_POTENTIAL  0    //lower potential in mV
-#define CV_UPPER_POTENTIAL  800     //upper potential in mV
-#define CV_STEP_POTENTIAL   5      //step potential in mV
-#define CV_OFFSET_VOLTAGE   2200    //offset voltage in mV
+//#define CV_SCAN_RATE        100     //scan rate (mV/sec)
+//#define CV_LOWER_POTENTIAL  0    //lower potential in mV
+//#define CV_UPPER_POTENTIAL  800     //upper potential in mV
+//#define CV_STEP_POTENTIAL   5      //step potential in mV
+//#define CV_OFFSET_VOLTAGE   2200    //offset voltage in mV
 
-static int cvScanRate        = CV_SCAN_RATE;
-static int cvLowerPotential  = CV_LOWER_POTENTIAL;
-static int cvUpperPotential  = CV_UPPER_POTENTIAL;
-static int cvStepPotential   = CV_STEP_POTENTIAL;
-static int cvOffsetVoltage   = CV_OFFSET_VOLTAGE;
+//static int cvScanRate        = CV_SCAN_RATE;
+//static int cvLowerPotential  = CV_LOWER_POTENTIAL;
+//static int cvUpperPotential  = CV_UPPER_POTENTIAL;
+//static int cvStepPotential   = CV_STEP_POTENTIAL;
+//static int cvOffsetVoltage   = CV_OFFSET_VOLTAGE;
 //t.n.tmp kokomade
 
 //t.n.tmp 170131
 //Ampero parameters (default)
 #define AMPERO_POINTS           60      //measurement points
 #define AMPERO_PERIOD           1000    //period in ms
-#define AMPERO_OFFSET_VOLTAGE   1500    //offset voltage in mV
-#define AMPERO_POTENTIAL_OFFSET 1400    //potential in mV
+#define AMPERO_OFFSET_VOLTAGE   2750    //offset voltage in mV
+#define AMPERO_POTENTIAL_OFFSET 200    //potential in mV
 
 static unsigned short amperoPoints          = AMPERO_POINTS;
 static unsigned short amperoPeriod          = AMPERO_PERIOD;
@@ -382,6 +382,37 @@ static unsigned short amperoStopFlag        = 1;
 
 // Global display handle
 Display_Handle dispHandle;
+/////////////////////////////////////////////////////////////////////
+//t.n.tmp 161102
+/////////////////////////////////////////////////////////////////////
+
+//DAC command
+#define DAC_CMD_SOFTRESET_AB    0x2F
+#define DAC_CMD_INTERNALREF     0x3F
+#define DAC_CMD_POWERCNTROL_AB  0x27
+
+#define DAC_CMD_WRITEUPDATE_A   0x18
+#define DAC_CMD_WRITEUPDATE_B   0x19
+#define DAC_CMD_WRITEUPDATE_AB  0x1F
+
+//DAC data
+#define DAC_DATA_SOFTRESET_AB_DAC       0x0000
+#define DAC_DATA_SOFTRESET_AB_ALL       0x0001
+#define DAC_DATA_INTERNALREF_DISABLE    0x0000
+#define DAC_DATA_INTERNALREF_ENBL       0x0001
+#define DAC_DATA_POWERCNTROL_A_ON       0x0001
+#define DAC_DATA_POWERCNTROL_B_ON       0x0002
+#define DAC_DATA_POWERCNTROL_AB_ON      0x0003
+#define DAC_DATA_POWERCNTROL_A_OFF      0x0011  //power down with 1kOhm
+#define DAC_DATA_POWERCNTROL_B_OFF      0x0012  //power down with 1kOhm
+#define DAC_DATA_POWERCNTROL_AB_OFF     0x0013  //power down with 1kOhm
+
+//DAC Parameters
+#define DAC_REF_VOLTAGE     2500    //DAC reference voltage in mV
+#define DAC_RESOLUTION      65536   //DAC resolution
+#define DAC_GAIN            2       //DAC gain
+
+#define DAC_DEFAULT_VOUT_A  1500    //DAC A default output voltage in mV
 
 /*********************************************************************
  * LOCAL FUNCTIONS
@@ -405,8 +436,8 @@ static void user_gapBondMgr_passcodeCB(uint8_t *deviceAddr, uint16_t connHandle,
 static void user_gapBondMgr_pairStateCB(uint16_t connHandle, uint8_t state,
                                         uint8_t status);
 
-static void buttonDebounceSwiFxn(UArg buttonId);
-static void user_handleButtonPress(button_state_t *pState);
+//static void buttonDebounceSwiFxn(UArg buttonId);
+//static void user_handleButtonPress(button_state_t *pState);
 
 // Generic callback handlers for value changes in services.
 static void user_service_ValueChangeCB( uint16_t connHandle, uint16_t svcUuid, uint8_t paramID, uint8_t *pValue, uint16_t len );
@@ -414,7 +445,7 @@ static void user_service_CfgChangeCB( uint16_t connHandle, uint16_t svcUuid, uin
 
 // Task context handlers for generated services.
 static void user_LedService_ValueChangeHandler(char_data_t *pCharData);
-static void user_ButtonService_CfgChangeHandler(char_data_t *pCharData);
+//static void user_ButtonService_CfgChangeHandler(char_data_t *pCharData);
 static void user_DataService_ValueChangeHandler(char_data_t *pCharData);
 static void user_DataService_CfgChangeHandler(char_data_t *pCharData);
 
@@ -426,7 +457,7 @@ static void user_enqueueRawAppMsg(app_msg_types_t appMsgType, uint8_t *pData, ui
 static void user_enqueueCharDataMsg(app_msg_types_t appMsgType, uint16_t connHandle,
                                     uint16_t serviceUUID, uint8_t paramID,
                                     uint8_t *pValue, uint16_t len);
-static void buttonCallbackFxn(PIN_Handle handle, PIN_Id pinId);
+//static void buttonCallbackFxn(PIN_Handle handle, PIN_Id pinId);
 
 static char *Util_convertArrayToHexString(uint8_t const *src, uint8_t src_len,
                                           uint8_t *dst, uint8_t dst_len);
@@ -491,11 +522,11 @@ static LedServiceCBs_t user_LED_ServiceCBs =
 
 // Button Service callback handler.
 // The type Button_ServiceCBs_t is defined in Button_Service.h
-static ButtonServiceCBs_t user_Button_ServiceCBs =
-{
-  .pfnChangeCb    = NULL, // No writable chars in Button Service, so no change handler.
-  .pfnCfgChangeCb = user_service_CfgChangeCB, // Noti/ind configuration callback handler
-};
+//static ButtonServiceCBs_t user_Button_ServiceCBs =
+//{
+//  .pfnChangeCb    = NULL, // No writable chars in Button Service, so no change handler.
+//  .pfnCfgChangeCb = user_service_CfgChangeCB, // Noti/ind configuration callback handler
+//};
 
 // Data Service callback handler.
 // The type Data_ServiceCBs_t is defined in Data_Service.h
@@ -566,6 +597,7 @@ static void ProjectZero_init(void)
     Task_exit();
   }
 
+  //Turn on LED to know MCU is alive
   PIN_setOutputValue(ledPinHandle, Board_LED0, 1);
 
   //t.n.tmp 161107 Open DAC chip select pins
@@ -585,43 +617,62 @@ static void ProjectZero_init(void)
   }
   //t.n.tmp kokomade
 
-  buttonPinHandle = PIN_open(&buttonPinState, buttonPinTable);
-  if(!buttonPinHandle) {
-    Log_error0("Error initializing button pins");
-    Task_exit();
-  }
+//  buttonPinHandle = PIN_open(&buttonPinState, buttonPinTable);
+//  if(!buttonPinHandle) {
+//    Log_error0("Error initializing button pins");
+//    Task_exit();
+//  }
 
-  // Setup callback for button pins
-  if (PIN_registerIntCb(buttonPinHandle, &buttonCallbackFxn) != 0) {
-    Log_error0("Error registering button callback function");
-    Task_exit();
-  }
+//  // Setup callback for button pins
+//  if (PIN_registerIntCb(buttonPinHandle, &buttonCallbackFxn) != 0) {
+//    Log_error0("Error registering button callback function");
+//    Task_exit();
+//  }
 
   // Create the debounce clock objects for Button 0 and Button 1
-  Clock_Params clockParams;
-  Clock_Params_init(&clockParams);
-
-  // Both clock objects use the same callback, so differentiate on argument
-  // given to the callback in Swi context
-  clockParams.arg = Board_BUTTON0;
-
-  // Initialize to 50 ms timeout when Clock_start is called.
-  // Timeout argument is in ticks, so convert from ms to ticks via tickPeriod.
-  Clock_construct(&button0DebounceClock, buttonDebounceSwiFxn,
-                  50 * (1000/Clock_tickPeriod),
-                  &clockParams);
-
-  // Second button
-  clockParams.arg = Board_BUTTON1;
-  Clock_construct(&button1DebounceClock, buttonDebounceSwiFxn,
-                  50 * (1000/Clock_tickPeriod),
-                  &clockParams);
+//  Clock_Params clockParams;
+//  Clock_Params_init(&clockParams);
+//
+//  // Both clock objects use the same callback, so differentiate on argument
+//  // given to the callback in Swi context
+//  clockParams.arg = Board_BUTTON0;
+//
+//  // Initialize to 50 ms timeout when Clock_start is called.
+//  // Timeout argument is in ticks, so convert from ms to ticks via tickPeriod.
+//  Clock_construct(&button0DebounceClock, buttonDebounceSwiFxn,
+//                  50 * (1000/Clock_tickPeriod),
+//                  &clockParams);
+//
+//  // Second button
+//  clockParams.arg = Board_BUTTON1;
+//  Clock_construct(&button1DebounceClock, buttonDebounceSwiFxn,
+//                  50 * (1000/Clock_tickPeriod),
+//                  &clockParams);
 
   //t.n.tmp 170106 SPI, ADC init
   Log_info0("SPI, ADC init");
   DAC_SPI_Init();
   ADC_Init();
 
+//  //2018 - CJB DAC Testing----------------------------------------------
+//  int ret;
+//  static unsigned short data;
+//
+//  static unsigned short dacLSBuV      = DAC_REF_VOLTAGE*1000/DAC_RESOLUTION*DAC_GAIN;
+//  unsigned short dacDefaultVoutALSB   = DAC_DEFAULT_VOUT_A*1000/dacLSBuV;
+//
+//  for (int i = 0; i < 300; i++)
+//  {
+//
+//      //dac AB write data and update
+//      data = i*10*1000/dacLSBuV;;
+//      ret = DAC_SPI_WriteReg(DAC_CMD_WRITEUPDATE_AB, data);
+//      if (ret) break;
+//
+//      delay_ms(100);
+//  }
+
+  //2018 - CJB Testing----------------------------------------------
   // ******************************************************************
   // BLE Stack initialization
   // ******************************************************************
@@ -691,13 +742,13 @@ static void ProjectZero_init(void)
 
   // Add services to GATT server and give ID of this task for Indication acks.
   LedService_AddService( selfEntity );
-  ButtonService_AddService( selfEntity );
+//  ButtonService_AddService( selfEntity );
   DataService_AddService( selfEntity );
 
   // Register callbacks with the generated services that
   // can generate events (writes received) to the application
   LedService_RegisterAppCBs( &user_LED_ServiceCBs );
-  ButtonService_RegisterAppCBs( &user_Button_ServiceCBs );
+//  ButtonService_RegisterAppCBs( &user_Button_ServiceCBs );
   DataService_RegisterAppCBs( &user_Data_ServiceCBs );
 
   // Placeholder variable for characteristic intialization
@@ -709,8 +760,8 @@ static void ProjectZero_init(void)
   LedService_SetParameter(LS_LED1_ID, LS_LED1_LEN, initVal);
 
   // Initalization of characteristics in Button_Service that can provide data.
-  ButtonService_SetParameter(BS_BUTTON0_ID, BS_BUTTON0_LEN, initVal);
-  ButtonService_SetParameter(BS_BUTTON1_ID, BS_BUTTON1_LEN, initVal);
+//  ButtonService_SetParameter(BS_BUTTON0_ID, BS_BUTTON0_LEN, initVal);
+//  ButtonService_SetParameter(BS_BUTTON1_ID, BS_BUTTON1_LEN, initVal);
 
   // Initalization of characteristics in Data_Service that can provide data.
   DataService_SetParameter(DS_STRING_ID, sizeof(initString), initString);
@@ -852,9 +903,9 @@ static void user_processApplicationMessage(app_msg_t *pMsg)
     case APP_MSG_SERVICE_CFG: /* Message about received CCCD write */
       /* Call different handler per service */
       switch(pCharData->svcUUID) {
-        case BUTTON_SERVICE_SERV_UUID:
-          user_ButtonService_CfgChangeHandler(pCharData);
-          break;
+//        case BUTTON_SERVICE_SERV_UUID:
+//          user_ButtonService_CfgChangeHandler(pCharData);
+//          break;
         case DATA_SERVICE_SERV_UUID:
           user_DataService_CfgChangeHandler(pCharData);
           break;
@@ -880,12 +931,12 @@ static void user_processApplicationMessage(app_msg_t *pMsg)
       }
       break;
 
-    case APP_MSG_BUTTON_DEBOUNCED: /* Message from swi about pin change */
-      {
-        button_state_t *pButtonState = (button_state_t *)pMsg->pdu;
-        user_handleButtonPress(pButtonState);
-      }
-      break;
+//    case APP_MSG_BUTTON_DEBOUNCED: /* Message from swi about pin change */
+//      {
+//        button_state_t *pButtonState = (button_state_t *)pMsg->pdu;
+//        user_handleButtonPress(pButtonState);
+//      }
+//      break;
   }
 }
 
@@ -991,29 +1042,29 @@ static void user_processGapStateChangeEvt(gaprole_States_t newState)
  *
  * @return  None.
  */
-static void user_handleButtonPress(button_state_t *pState)
-{
-  Log_info2("%s %s",
-    (IArg)(pState->pinId == Board_BUTTON0?"Button 0":"Button 1"),
-    (IArg)(pState->state?"\x1b[32mpressed\x1b[0m":
-                         "\x1b[33mreleased\x1b[0m"));
-
-  // Update the service with the new value.
-  // Will automatically send notification/indication if enabled.
-  switch (pState->pinId)
-  {
-    case Board_BUTTON0:
-      ButtonService_SetParameter(BS_BUTTON0_ID,
-                                 sizeof(pState->state),
-                                 &pState->state);
-      break;
-    case Board_BUTTON1:
-      ButtonService_SetParameter(BS_BUTTON1_ID,
-                                 sizeof(pState->state),
-                                 &pState->state);
-      break;
-  }
-}
+//static void user_handleButtonPress(button_state_t *pState)
+//{
+//  Log_info2("%s %s",
+//    (IArg)(pState->pinId == Board_BUTTON0?"Button 0":"Button 1"),
+//    (IArg)(pState->state?"\x1b[32mpressed\x1b[0m":
+//                         "\x1b[33mreleased\x1b[0m"));
+//
+//  // Update the service with the new value.
+//  // Will automatically send notification/indication if enabled.
+//  switch (pState->pinId)
+//  {
+//    case Board_BUTTON0:
+//      ButtonService_SetParameter(BS_BUTTON0_ID,
+//                                 sizeof(pState->state),
+//                                 &pState->state);
+//      break;
+//    case Board_BUTTON1:
+//      ButtonService_SetParameter(BS_BUTTON1_ID,
+//                                 sizeof(pState->state),
+//                                 &pState->state);
+//      break;
+//  }
+//}
 
 /*
  * @brief   Handle a write request sent from a peer device.
@@ -1058,54 +1109,54 @@ void user_LedService_ValueChangeHandler(char_data_t *pCharData)
             case SWV_CTRL_LED_ON:
                 PIN_setOutputValue(ledPinHandle, Board_LED0, pCharData->data[0]);
                 break;
-            case SWV_CTRL_SPIADC_INIT: //
-                Log_info0("SPI, ADC init");
-                DAC_SPI_Init();
-                ADC_Init();
-                break;
-            case SWV_CTRL_SWV_MEAS:
-                DataService_SetParameter(DS_STRING_ID, sizeof("Measuring SWV!!!"), "Measuring SWV!!!");
-                SWV_Meas04();
-                DataService_SetParameter(DS_STRING_ID, sizeof("SWV Done!!!"), "SWV Done!!!");
-                break;
-            case SWV_CTRL_SWV_MEAS05:
-                DataService_SetParameter(DS_STRING_ID, sizeof("Measuring SWV(05)!!!"), "Measuring SWV(05)!!!");
-                SWV_Meas05();
-                DataService_SetParameter(DS_STRING_ID, sizeof("SWV Done!!!"), "SWV Done!!!");
-                break;
-            case SWV_CTRL_SWV_MEAS06:   //t.n.tmp 170131
-                DataService_SetParameter(DS_STRING_ID, sizeof("Measuring SWV(06)!!!"), "Measuring SWV(06)!!!");
-                SWV_Meas06();
-                DataService_SetParameter(DS_STRING_ID, sizeof("SWV Done!!!"), "SWV Done!!!");
-                break;
-            case SWV_CTRL_SWV_MEAS07:   //t.n.tmp 170210
-                DataService_SetParameter(DS_STRING_ID, sizeof("Measuring SWV(07)!!!"), "Measuring SWV(07)!!!");
-                SWV_Meas07();
-                DataService_SetParameter(DS_STRING_ID, sizeof("SWV Done!!!"), "SWV Done!!!");
-                break;
-            case SWV_CTRL_SWV_DATADISP:
-                if (adcDataReady >= 1)
-                {
-                    ADC_Data_Disp02();
-                }
-                else
-                {
-                }
-                break;
-            case SWV_CTRL_CV_MEAS:
-                DataService_SetParameter(DS_STRING_ID, sizeof("Measuring CV!!!"), "Measuring CV!!!");
-                CV_Meas01();
-                DataService_SetParameter(DS_STRING_ID, sizeof("CV Done!!!"), "CV Done!!!");
-                break;
-            case SWV_CTRL_CV_DATADISP:
-                if (adcDataReady >= 1)
-                {
-                    ADC_Data_Disp02();
-                }
-                else
-                {
-                }
-                break;
+//            case SWV_CTRL_SPIADC_INIT: //
+//                Log_info0("SPI, ADC init");
+//                DAC_SPI_Init();
+//                ADC_Init();
+//                break;
+//            case SWV_CTRL_SWV_MEAS:
+//                DataService_SetParameter(DS_STRING_ID, sizeof("Measuring SWV!!!"), "Measuring SWV!!!");
+//                SWV_Meas04();
+//                DataService_SetParameter(DS_STRING_ID, sizeof("SWV Done!!!"), "SWV Done!!!");
+//                break;
+//            case SWV_CTRL_SWV_MEAS05:
+//                DataService_SetParameter(DS_STRING_ID, sizeof("Measuring SWV(05)!!!"), "Measuring SWV(05)!!!");
+//                SWV_Meas05();
+//                DataService_SetParameter(DS_STRING_ID, sizeof("SWV Done!!!"), "SWV Done!!!");
+//                break;
+//            case SWV_CTRL_SWV_MEAS06:   //t.n.tmp 170131
+//                DataService_SetParameter(DS_STRING_ID, sizeof("Measuring SWV(06)!!!"), "Measuring SWV(06)!!!");
+//                SWV_Meas06();
+//                DataService_SetParameter(DS_STRING_ID, sizeof("SWV Done!!!"), "SWV Done!!!");
+//                break;
+//            case SWV_CTRL_SWV_MEAS07:   //t.n.tmp 170210
+//                DataService_SetParameter(DS_STRING_ID, sizeof("Measuring SWV(07)!!!"), "Measuring SWV(07)!!!");
+//                SWV_Meas07();
+//                DataService_SetParameter(DS_STRING_ID, sizeof("SWV Done!!!"), "SWV Done!!!");
+//                break;
+//            case SWV_CTRL_SWV_DATADISP:
+//                if (adcDataReady >= 1)
+//                {
+//                    ADC_Data_Disp02();
+//                }
+//                else
+//                {
+//                }
+//                break;
+//            case SWV_CTRL_CV_MEAS:
+//                DataService_SetParameter(DS_STRING_ID, sizeof("Measuring CV!!!"), "Measuring CV!!!");
+//                CV_Meas01();
+//                DataService_SetParameter(DS_STRING_ID, sizeof("CV Done!!!"), "CV Done!!!");
+//                break;
+//            case SWV_CTRL_CV_DATADISP:
+//                if (adcDataReady >= 1)
+//                {
+//                    ADC_Data_Disp02();
+//                }
+//                else
+//                {
+//                }
+//                break;
             case SWV_CTRL_AMPERO_MEAS:  //t.n.tmp 170131
                 DataService_SetParameter(DS_STRING_ID, sizeof("Measuring Ampero!!!"), "Measuring Ampero!!!");
                 //AMPERO_Meas01();
@@ -1141,35 +1192,35 @@ void user_LedService_ValueChangeHandler(char_data_t *pCharData)
 
         switch (swvParamAddress)
         {
-            case SWV_PARAM_ADDR_INIT_WAIT:
-                swvInitWait = swvParamData;
-                break;
-            case SWV_PARAM_ADDR_FREQ:
-                swvFreq = swvParamData;
-                swvPeriod = 1000/swvFreq;
-                swvHighDuration = swvPeriod/2;
-                break;
-            case SWV_PARAM_ADDR_INIT_VOLTAGE:
-                swvInitVoltage = swvParamData;
-                break;
-            case SWV_PARAM_ADDR_FINAL_VOLTAGE:
-                swvFinalVoltage = swvParamData;
-                break;
-            case SWV_PARAM_ADDR_AMPLITUDE:
-                swvAmplitude = swvParamData;
-                break;
-            case SWV_PARAM_ADDR_STEP_VOLTAGE:
-                swvStepVoltage = swvParamData;
-                break;
-            case SWV_PARAM_ADDR_OFFSET_VOLTAGE:
-                swvOffsetVoltage = swvParamData;
-                break;
-            case SWV_PARAM_ADDR_INIT_VOLTAGE_OFFSET:
-                swvInitVoltageOffset = swvParamData;
-                break;
-            case SWV_PARAM_ADDR_FINAL_VOLTAGE_OFFSET:
-                swvFinalVoltageOffset = swvParamData;
-                break;
+//            case SWV_PARAM_ADDR_INIT_WAIT:
+//                swvInitWait = swvParamData;
+//                break;
+//            case SWV_PARAM_ADDR_FREQ:
+//                swvFreq = swvParamData;
+//                swvPeriod = 1000/swvFreq;
+//                swvHighDuration = swvPeriod/2;
+//                break;
+//            case SWV_PARAM_ADDR_INIT_VOLTAGE:
+//                swvInitVoltage = swvParamData;
+//                break;
+//            case SWV_PARAM_ADDR_FINAL_VOLTAGE:
+//                swvFinalVoltage = swvParamData;
+//                break;
+//            case SWV_PARAM_ADDR_AMPLITUDE:
+//                swvAmplitude = swvParamData;
+//                break;
+//            case SWV_PARAM_ADDR_STEP_VOLTAGE:
+//                swvStepVoltage = swvParamData;
+//                break;
+//            case SWV_PARAM_ADDR_OFFSET_VOLTAGE:
+//                swvOffsetVoltage = swvParamData;
+//                break;
+//            case SWV_PARAM_ADDR_INIT_VOLTAGE_OFFSET:
+//                swvInitVoltageOffset = swvParamData;
+//                break;
+//            case SWV_PARAM_ADDR_FINAL_VOLTAGE_OFFSET:
+//                swvFinalVoltageOffset = swvParamData;
+//                break;
             //ampero    //t.n.tmp 170131
             case SWV_PARAM_ADDR_AMPERO_POINTS:
                 amperoPoints = swvParamData;
@@ -1178,6 +1229,7 @@ void user_LedService_ValueChangeHandler(char_data_t *pCharData)
                 amperoPeriod = swvParamData;
                 break;
             case SWV_PARAM_ADDR_AMPERO_OFFSET_VOLTAGE:
+                PIN_setOutputValue(ledPinHandle, Board_LED0, 0);
                 amperoOffsetVoltage = swvParamData;
                 break;
             case SWV_PARAM_ADDR_AMPERO_POTENTIAL_OFFSET:
@@ -1209,51 +1261,51 @@ void user_LedService_ValueChangeHandler(char_data_t *pCharData)
  *
  * @return  None.
  */
-void user_ButtonService_CfgChangeHandler(char_data_t *pCharData)
-{
-  // Cast received data to uint16, as that's the format for CCCD writes.
-  uint16_t configValue = *(uint16_t *)pCharData->data;
-  char *configValString;
-
-  // Determine what to tell the user
-  switch(configValue)
-  {
-  case GATT_CFG_NO_OPERATION:
-    configValString = "Noti/Ind disabled";
-    break;
-  case GATT_CLIENT_CFG_NOTIFY:
-    configValString = "Notifications enabled";
-    break;
-  case GATT_CLIENT_CFG_INDICATE:
-    configValString = "Indications enabled";
-    break;
-  }
-
-  switch (pCharData->paramID)
-  {
-    case BS_BUTTON0_ID:
-      Log_info3("CCCD Change msg: %s %s: %s",
-                (IArg)"Button Service",
-                (IArg)"BUTTON0",
-                (IArg)configValString);
-      // -------------------------
-      // Do something useful with configValue here. It tells you whether someone
-      // wants to know the state of this characteristic.
-      // ...
-      break;
-
-    case BS_BUTTON1_ID:
-      Log_info3("CCCD Change msg: %s %s: %s",
-                (IArg)"Button Service",
-                (IArg)"BUTTON1",
-                (IArg)configValString);
-      // -------------------------
-      // Do something useful with configValue here. It tells you whether someone
-      // wants to know the state of this characteristic.
-      // ...
-      break;
-  }
-}
+//void user_ButtonService_CfgChangeHandler(char_data_t *pCharData)
+//{
+//  // Cast received data to uint16, as that's the format for CCCD writes.
+//  uint16_t configValue = *(uint16_t *)pCharData->data;
+//  char *configValString;
+//
+//  // Determine what to tell the user
+//  switch(configValue)
+//  {
+//  case GATT_CFG_NO_OPERATION:
+//    configValString = "Noti/Ind disabled";
+//    break;
+//  case GATT_CLIENT_CFG_NOTIFY:
+//    configValString = "Notifications enabled";
+//    break;
+//  case GATT_CLIENT_CFG_INDICATE:
+//    configValString = "Indications enabled";
+//    break;
+//  }
+//
+//  switch (pCharData->paramID)
+//  {
+//    case BS_BUTTON0_ID:
+//      Log_info3("CCCD Change msg: %s %s: %s",
+//                (IArg)"Button Service",
+//                (IArg)"BUTTON0",
+//                (IArg)configValString);
+//      // -------------------------
+//      // Do something useful with configValue here. It tells you whether someone
+//      // wants to know the state of this characteristic.
+//      // ...
+//      break;
+//
+//    case BS_BUTTON1_ID:
+//      Log_info3("CCCD Change msg: %s %s: %s",
+//                (IArg)"Button Service",
+//                (IArg)"BUTTON1",
+//                (IArg)configValString);
+//      // -------------------------
+//      // Do something useful with configValue here. It tells you whether someone
+//      // wants to know the state of this characteristic.
+//      // ...
+//      break;
+//  }
+//}
 
 /*
  * @brief   Handle a write request sent from a peer device.
@@ -1660,90 +1712,90 @@ static void user_service_CfgChangeCB( uint16_t connHandle, uint16_t svcUuid,
  *
  * @param  buttonId    The pin being debounced
  */
-static void buttonDebounceSwiFxn(UArg buttonId)
-{
-  // Used to send message to app
-  button_state_t buttonMsg = { .pinId = buttonId };
-  uint8_t        sendMsg   = FALSE;
-
-  // Get current value of the button pin after the clock timeout
-  uint8_t buttonPinVal = PIN_getInputValue(buttonId);
-
-  // Set interrupt direction to opposite of debounced state
-  // If button is now released (button is active low, so release is high)
-  if (buttonPinVal)
-  {
-    // Enable negative edge interrupts to wait for press
-    PIN_setConfig(buttonPinHandle, PIN_BM_IRQ, buttonId | PIN_IRQ_NEGEDGE);
-  }
-  else
-  {
-    // Enable positive edge interrupts to wait for relesae
-    PIN_setConfig(buttonPinHandle, PIN_BM_IRQ, buttonId | PIN_IRQ_POSEDGE);
-  }
-
-  switch(buttonId)
-  {
-    case Board_BUTTON0:
-      // If button is now released (buttonPinVal is active low, so release is 1)
-      // and button state was pressed (buttonstate is active high so press is 1)
-      if (buttonPinVal && button0State)
-      {
-        // Button was released
-        buttonMsg.state = button0State = 0;
-        sendMsg = TRUE;
-        //t.n.tmp 161104
-        DAC_SPI_Init();
-        //DAC_SPI_SWV();
-        //t.n.tmp 161111
-        ADC_Init();
-      }
-      else if (!buttonPinVal && !button0State)
-      {
-        // Button was pressed
-        buttonMsg.state = button0State = 1;
-        sendMsg = TRUE;
-      }
-      break;
-
-    case Board_BUTTON1:
-      // If button is now released (buttonPinVal is active low, so release is 1)
-      // and button state was pressed (buttonstate is active high so press is 1)
-      if (buttonPinVal && button1State)
-      {
-        // Button was released
-        buttonMsg.state = button1State = 0;
-        sendMsg = TRUE;
-        //t.n.tmp 161115
-        //t.n.tmp 161111
-        if (adcDataReady >= 1)
-        {
-            //ADC_Data_Disp01();
-            ADC_Data_Disp02();
-        }
-        else
-        {
-            //SWV_Meas01();
-            //SWV_Meas02();
-            //SWV_Meas03();
-            SWV_Meas04();
-        }
-      }
-      else if (!buttonPinVal && !button0State)
-      {
-        // Button was pressed
-        buttonMsg.state = button1State = 1;
-        sendMsg = TRUE;
-      }
-      break;
-  }
-
-  if (sendMsg == TRUE)
-  {
-    user_enqueueRawAppMsg(APP_MSG_BUTTON_DEBOUNCED,
-                      (uint8_t *)&buttonMsg, sizeof(buttonMsg));
-  }
-}
+//static void buttonDebounceSwiFxn(UArg buttonId)
+//{
+//  // Used to send message to app
+//  button_state_t buttonMsg = { .pinId = buttonId };
+//  uint8_t        sendMsg   = FALSE;
+//
+//  // Get current value of the button pin after the clock timeout
+//  uint8_t buttonPinVal = PIN_getInputValue(buttonId);
+//
+//  // Set interrupt direction to opposite of debounced state
+//  // If button is now released (button is active low, so release is high)
+//  if (buttonPinVal)
+//  {
+//    // Enable negative edge interrupts to wait for press
+//    PIN_setConfig(buttonPinHandle, PIN_BM_IRQ, buttonId | PIN_IRQ_NEGEDGE);
+//  }
+//  else
+//  {
+//    // Enable positive edge interrupts to wait for relesae
+//    PIN_setConfig(buttonPinHandle, PIN_BM_IRQ, buttonId | PIN_IRQ_POSEDGE);
+//  }
+//
+//  switch(buttonId)
+//  {
+//    case Board_BUTTON0:
+//      // If button is now released (buttonPinVal is active low, so release is 1)
+//      // and button state was pressed (buttonstate is active high so press is 1)
+//      if (buttonPinVal && button0State)
+//      {
+//        // Button was released
+//        buttonMsg.state = button0State = 0;
+//        sendMsg = TRUE;
+//        //t.n.tmp 161104
+//        DAC_SPI_Init();
+//        //DAC_SPI_SWV();
+//        //t.n.tmp 161111
+//        ADC_Init();
+//      }
+//      else if (!buttonPinVal && !button0State)
+//      {
+//        // Button was pressed
+//        buttonMsg.state = button0State = 1;
+//        sendMsg = TRUE;
+//      }
+//      break;
+//
+//    case Board_BUTTON1:
+//      // If button is now released (buttonPinVal is active low, so release is 1)
+//      // and button state was pressed (buttonstate is active high so press is 1)
+//      if (buttonPinVal && button1State)
+//      {
+//        // Button was released
+//        buttonMsg.state = button1State = 0;
+//        sendMsg = TRUE;
+//        //t.n.tmp 161115
+//        //t.n.tmp 161111
+//        if (adcDataReady >= 1)
+//        {
+//            //ADC_Data_Disp01();
+//            ADC_Data_Disp02();
+//        }
+//        else
+//        {
+//            //SWV_Meas01();
+//            //SWV_Meas02();
+//            //SWV_Meas03();
+//            SWV_Meas04();
+//        }
+//      }
+//      else if (!buttonPinVal && !button0State)
+//      {
+//        // Button was pressed
+//        buttonMsg.state = button1State = 1;
+//        sendMsg = TRUE;
+//      }
+//      break;
+//  }
+//
+//  if (sendMsg == TRUE)
+//  {
+//    user_enqueueRawAppMsg(APP_MSG_BUTTON_DEBOUNCED,
+//                      (uint8_t *)&buttonMsg, sizeof(buttonMsg));
+//  }
+//}
 
 /*
  *  Callbacks from Hwi-context
@@ -1757,25 +1809,25 @@ static void buttonDebounceSwiFxn(UArg buttonId)
  * @param  handle    The PIN_Handle instance this is about
  * @param  pinId     The pin that generated the interrupt
  */
-static void buttonCallbackFxn(PIN_Handle handle, PIN_Id pinId)
-{
-  Log_info1("Button interrupt: %s",
-            (IArg)((pinId == Board_BUTTON0)?"Button 0":"Button 1"));
-
-  // Disable interrupt on that pin for now. Re-enabled after debounce.
-  PIN_setConfig(handle, PIN_BM_IRQ, pinId | PIN_IRQ_DIS);
-
-  // Start debounce timer
-  switch (pinId)
-  {
-    case Board_BUTTON0:
-      Clock_start(Clock_handle(&button0DebounceClock));
-      break;
-    case Board_BUTTON1:
-      Clock_start(Clock_handle(&button1DebounceClock));
-      break;
-  }
-}
+//static void buttonCallbackFxn(PIN_Handle handle, PIN_Id pinId)
+//{
+//  Log_info1("Button interrupt: %s",
+//            (IArg)((pinId == Board_BUTTON0)?"Button 0":"Button 1"));
+//
+//  // Disable interrupt on that pin for now. Re-enabled after debounce.
+//  PIN_setConfig(handle, PIN_BM_IRQ, pinId | PIN_IRQ_DIS);
+//
+//  // Start debounce timer
+//  switch (pinId)
+//  {
+//    case Board_BUTTON0:
+//      Clock_start(Clock_handle(&button0DebounceClock));
+//      break;
+//    case Board_BUTTON1:
+//      Clock_start(Clock_handle(&button1DebounceClock));
+//      break;
+//  }
+//}
 
 
 /******************************************************************************
@@ -1887,10 +1939,10 @@ static void user_updateCharVal(char_data_t *pCharData)
                               pCharData->data);
     break;
 
-    case BUTTON_SERVICE_SERV_UUID:
-      ButtonService_SetParameter(pCharData->paramID, pCharData->dataLen,
-                                 pCharData->data);
-    break;
+//    case BUTTON_SERVICE_SERV_UUID:
+//      ButtonService_SetParameter(pCharData->paramID, pCharData->dataLen,
+//                                 pCharData->data);
+//    break;
 
   }
 }
@@ -1959,37 +2011,7 @@ static char *Util_getLocalNameStr(const uint8_t *data) {
   return localNameStr;
 }
 
-/////////////////////////////////////////////////////////////////////
-//t.n.tmp 161102
-/////////////////////////////////////////////////////////////////////
 
-//DAC command
-#define DAC_CMD_SOFTRESET_AB    0x2F
-#define DAC_CMD_INTERNALREF     0x3F
-#define DAC_CMD_POWERCNTROL_AB  0x27
-
-#define DAC_CMD_WRITEUPDATE_A   0x18
-#define DAC_CMD_WRITEUPDATE_B   0x19
-#define DAC_CMD_WRITEUPDATE_AB  0x1F
-
-//DAC data
-#define DAC_DATA_SOFTRESET_AB_DAC       0x0000
-#define DAC_DATA_SOFTRESET_AB_ALL       0x0001
-#define DAC_DATA_INTERNALREF_DISABLE    0x0000
-#define DAC_DATA_INTERNALREF_ENBL       0x0001
-#define DAC_DATA_POWERCNTROL_A_ON       0x0001
-#define DAC_DATA_POWERCNTROL_B_ON       0x0002
-#define DAC_DATA_POWERCNTROL_AB_ON      0x0003
-#define DAC_DATA_POWERCNTROL_A_OFF      0x0011  //power down with 1kOhm
-#define DAC_DATA_POWERCNTROL_B_OFF      0x0012  //power down with 1kOhm
-#define DAC_DATA_POWERCNTROL_AB_OFF     0x0013  //power down with 1kOhm
-
-//DAC Parameters
-#define DAC_REF_VOLTAGE     2500    //DAC reference voltage in mV
-#define DAC_RESOLUTION      65536   //DAC resolution
-#define DAC_GAIN            2       //DAC gain
-
-#define DAC_DEFAULT_VOUT_A  1500    //DAC A default output voltage in mV
 
 /////////////////////////////////////////////////////////////////////
 // AMPERO_Meas02
@@ -2002,6 +2024,7 @@ int AMPERO_Meas02(void)
     int numtmp;
     uint8_t testString[40];
 
+    //used in logging
     unsigned short tail = 0;
     unsigned short head = 0;
 
@@ -2113,127 +2136,127 @@ int AMPERO_Meas02(void)
 /////////////////////////////////////////////////////////////////////
 // AMPERO_Meas01
 /////////////////////////////////////////////////////////////////////
-int AMPERO_Meas01(void)
-{
-    int ret;
-    int itmp;
-    int jtmp;
-    int numtmp;
-    uint8_t testString[40];
-
-    unsigned short tail = 0;
-    unsigned short head = 0;
-
-    static unsigned short dacDataLSB;
-    static unsigned short amperoVreDataLSB;
-    static unsigned short dacLSBuV  = DAC_REF_VOLTAGE*1000/DAC_RESOLUTION*DAC_GAIN;
-
-    unsigned short amperoPotentialOffsetLSB     = amperoPotentialOffset*1000/dacLSBuV;
-    unsigned short amperoOffsetVoltageLSB   = amperoOffsetVoltage*1000/dacLSBuV;
-
-    //adcValue init
-    for (itmp=0; itmp<SWV_ADC_BUFFER_SIZE; itmp++)
-    {
-        adcValue[itmp] = 0;
-    }
-
-    //string init
-    for (itmp=0; itmp<40; itmp++)
-    {
-        testString[itmp] = 0xFF;
-    }
-
-    //DAC initial value A and B (set offset voltage)
-    dacDataLSB = amperoOffsetVoltageLSB;
-    ret = DAC_SPI_WriteReg(DAC_CMD_WRITEUPDATE_AB, dacDataLSB);
-    if (ret) return -1;
-
-    delay_ms(100);
-
-    //DAC initial value A
-    amperoVreDataLSB = amperoPotentialOffsetLSB;
-    dacDataLSB = calcDacDataLSB(0, amperoVreDataLSB);
-    ret = DAC_SPI_WriteReg(DAC_CMD_WRITEUPDATE_A, dacDataLSB);
-    if (ret) return -1;
-
-    delay_ms(100);
-
-    int adcDataNumTmp = 0;
-
-    amperoStopFlag = 0;
-
-    //loop
-    while ( adcDataNumTmp < amperoPoints )
-    {
-        //stop flag check and break
-        if (amperoStopFlag == 1) break;
-
-        adcValue[adcDataNumTmp] = ADC_Sample();
-        adcDataNumTmp++;
-        //TODO overflow!!!
-
-        //delay
-        delay_ms(amperoPeriod);
-
-        //update data
-        //header
-        jtmp = 0;
-        testString[jtmp*2] = 'A';   //Amperometry
-        testString[jtmp*2+1] = 'M'; //Measuring
-
-        jtmp = 1;   //data no.
-        testString[jtmp*2] = 0x00FF&adcDataNumTmp;
-        testString[jtmp*2+1] = 0x00FF&(adcDataNumTmp>>8);
-
-        //data
-        for (jtmp=2; jtmp<20; jtmp++)
-        {
-            numtmp = adcDataNumTmp - jtmp + 1;
-            if (numtmp < 0)
-            {
-                break;
-            }
-            else
-            {
-                testString[jtmp*2] = 0x00FF&adcValue[numtmp];
-                testString[jtmp*2+1] = 0x00FF&(adcValue[numtmp]>>8);
-            }
-        }
-
-        DataService_SetParameter(DS_STRING_ID, sizeof(testString), testString);
-        Log_info2("ADC data total (ready to send): %d (%d)", adcDataNumTmp, jtmp );
-
-    }
-
-
-    //initial value; only offset (apply 0 V)
-    dacDataLSB = amperoOffsetVoltageLSB;
-    ret = DAC_SPI_WriteReg(DAC_CMD_WRITEUPDATE_A, dacDataLSB);
-    if (ret) return -1;
-
-    //data set
-    jtmp = 0;
-    testString[jtmp*2] = 'A';   //Amperometry
-    testString[jtmp*2+1] = 'F'; //Finished
-    DataService_SetParameter(DS_STRING_ID, sizeof(testString), testString);
-
-    //log
-    Log_info3("ADC result: adc %d, head %d, tail %d",
-        adcDataNumTmp, head, tail);
-
-    //number of adc data
-    adcDataReady = adcDataNumTmp;
-
-    return 0;
-}
+//int AMPERO_Meas01(void)
+//{
+//    int ret;
+//    int itmp;
+//    int jtmp;
+//    int numtmp;
+//    uint8_t testString[40];
+//
+//    unsigned short tail = 0;
+//    unsigned short head = 0;
+//
+//    static unsigned short dacDataLSB;
+//    static unsigned short amperoVreDataLSB;
+//    static unsigned short dacLSBuV  = DAC_REF_VOLTAGE*1000/DAC_RESOLUTION*DAC_GAIN;
+//
+//    unsigned short amperoPotentialOffsetLSB     = amperoPotentialOffset*1000/dacLSBuV;
+//    unsigned short amperoOffsetVoltageLSB   = amperoOffsetVoltage*1000/dacLSBuV;
+//
+//    //adcValue init
+//    for (itmp=0; itmp<SWV_ADC_BUFFER_SIZE; itmp++)
+//    {
+//        adcValue[itmp] = 0;
+//    }
+//
+//    //string init
+//    for (itmp=0; itmp<40; itmp++)
+//    {
+//        testString[itmp] = 0xFF;
+//    }
+//
+//    //DAC initial value A and B (set offset voltage)
+//    dacDataLSB = amperoOffsetVoltageLSB;
+//    ret = DAC_SPI_WriteReg(DAC_CMD_WRITEUPDATE_AB, dacDataLSB);
+//    if (ret) return -1;
+//
+//    delay_ms(100);
+//
+//    //DAC initial value A
+//    amperoVreDataLSB = amperoPotentialOffsetLSB;
+//    dacDataLSB = calcDacDataLSB(0, amperoVreDataLSB);
+//    ret = DAC_SPI_WriteReg(DAC_CMD_WRITEUPDATE_A, dacDataLSB);
+//    if (ret) return -1;
+//
+//    delay_ms(100);
+//
+//    int adcDataNumTmp = 0;
+//
+//    amperoStopFlag = 0;
+//
+//    //loop
+//    while ( adcDataNumTmp < amperoPoints )
+//    {
+//        //stop flag check and break
+//        if (amperoStopFlag == 1) break;
+//
+//        adcValue[adcDataNumTmp] = ADC_Sample();
+//        adcDataNumTmp++;
+//        //TODO overflow!!!
+//
+//        //delay
+//        delay_ms(amperoPeriod);
+//
+//        //update data
+//        //header
+//        jtmp = 0;
+//        testString[jtmp*2] = 'A';   //Amperometry
+//        testString[jtmp*2+1] = 'M'; //Measuring
+//
+//        jtmp = 1;   //data no.
+//        testString[jtmp*2] = 0x00FF&adcDataNumTmp;
+//        testString[jtmp*2+1] = 0x00FF&(adcDataNumTmp>>8);
+//
+//        //data
+//        for (jtmp=2; jtmp<20; jtmp++)
+//        {
+//            numtmp = adcDataNumTmp - jtmp + 1;
+//            if (numtmp < 0)
+//            {
+//                break;
+//            }
+//            else
+//            {
+//                testString[jtmp*2] = 0x00FF&adcValue[numtmp];
+//                testString[jtmp*2+1] = 0x00FF&(adcValue[numtmp]>>8);
+//            }
+//        }
+//
+//        DataService_SetParameter(DS_STRING_ID, sizeof(testString), testString);
+//        Log_info2("ADC data total (ready to send): %d (%d)", adcDataNumTmp, jtmp );
+//
+//    }
+//
+//
+//    //initial value; only offset (apply 0 V)
+//    dacDataLSB = amperoOffsetVoltageLSB;
+//    ret = DAC_SPI_WriteReg(DAC_CMD_WRITEUPDATE_A, dacDataLSB);
+//    if (ret) return -1;
+//
+//    //data set
+//    jtmp = 0;
+//    testString[jtmp*2] = 'A';   //Amperometry
+//    testString[jtmp*2+1] = 'F'; //Finished
+//    DataService_SetParameter(DS_STRING_ID, sizeof(testString), testString);
+//
+//    //log
+//    Log_info3("ADC result: adc %d, head %d, tail %d",
+//        adcDataNumTmp, head, tail);
+//
+//    //number of adc data
+//    adcDataReady = adcDataNumTmp;
+//
+//    return 0;
+//}
 
 /////////////////////////////////////////////////////////////////////
 // CV_Meas01
 /////////////////////////////////////////////////////////////////////
-int CV_Meas01(void)
-{
-    return 0;
-}
+//int CV_Meas01(void)
+//{
+//    return 0;
+//}
 
 /////////////////////////////////////////////////////////////////////
 // ADC_Data_Disp
@@ -2584,45 +2607,45 @@ void scCtrlReadyCallback(void) {
 /////////////////////////////////////////////////////////////////////
 // DAC_SPI_SWV
 /////////////////////////////////////////////////////////////////////
-int DAC_SPI_SWV(void)
-{
-    int ret;
-    static unsigned short data;
-
-    static unsigned short dacLSBuV  = DAC_REF_VOLTAGE*1000/DAC_RESOLUTION*DAC_GAIN;
-
-    unsigned short swvInitVoltageLSB     = SWV_INIT_VOLTAGE*1000/dacLSBuV;
-    unsigned short swvFinalVoltageLSB    = SWV_FINAL_VOLTAGE*1000/dacLSBuV;
-    unsigned short swvAmplitudeLSB       = SWV_AMPLITUDE*1000/dacLSBuV;
-    unsigned short swvStepVoltageLSB     = SWV_STEP_VOLTAGE*1000/dacLSBuV;
-    unsigned short swvOffsetVoltageLSB   = SWV_OFFSET_VOLTAGE*1000/dacLSBuV;
-
-    //initial value
-    data = swvInitVoltageLSB + swvOffsetVoltageLSB;
-    ret = DAC_SPI_WriteReg(DAC_CMD_WRITEUPDATE_A, data);
-    if (ret) return -1;
-
-    delay_ms(SWV_INIT_WAIT*10);
-
-    //loop
-    while ( data < (swvFinalVoltageLSB + swvOffsetVoltageLSB - swvAmplitudeLSB) )
-    {
-        data += swvAmplitudeLSB;
-        ret = DAC_SPI_WriteReg(DAC_CMD_WRITEUPDATE_A, data);
-        delay_ms(SWV_HIGH_DURATION);
-
-        data -= (swvAmplitudeLSB - swvStepVoltageLSB);
-        ret = DAC_SPI_WriteReg(DAC_CMD_WRITEUPDATE_A, data);
-        delay_ms(SWV_PERIOD-SWV_HIGH_DURATION);
-    }
-
-    //initial value
-    data = swvInitVoltageLSB + swvOffsetVoltageLSB;
-    ret = DAC_SPI_WriteReg(DAC_CMD_WRITEUPDATE_A, data);
-    if (ret) return -1;
-
-    return 0;
-}
+//int DAC_SPI_SWV(void)
+//{
+//    int ret;
+//    static unsigned short data;
+//
+//    static unsigned short dacLSBuV  = DAC_REF_VOLTAGE*1000/DAC_RESOLUTION*DAC_GAIN;
+//
+//    unsigned short swvInitVoltageLSB     = SWV_INIT_VOLTAGE*1000/dacLSBuV;
+//    unsigned short swvFinalVoltageLSB    = SWV_FINAL_VOLTAGE*1000/dacLSBuV;
+//    unsigned short swvAmplitudeLSB       = SWV_AMPLITUDE*1000/dacLSBuV;
+//    unsigned short swvStepVoltageLSB     = SWV_STEP_VOLTAGE*1000/dacLSBuV;
+//    unsigned short swvOffsetVoltageLSB   = SWV_OFFSET_VOLTAGE*1000/dacLSBuV;
+//
+//    //initial value
+//    data = swvInitVoltageLSB + swvOffsetVoltageLSB;
+//    ret = DAC_SPI_WriteReg(DAC_CMD_WRITEUPDATE_A, data);
+//    if (ret) return -1;
+//
+//    delay_ms(SWV_INIT_WAIT*10);
+//
+//    //loop
+//    while ( data < (swvFinalVoltageLSB + swvOffsetVoltageLSB - swvAmplitudeLSB) )
+//    {
+//        data += swvAmplitudeLSB;
+//        ret = DAC_SPI_WriteReg(DAC_CMD_WRITEUPDATE_A, data);
+//        delay_ms(SWV_HIGH_DURATION);
+//
+//        data -= (swvAmplitudeLSB - swvStepVoltageLSB);
+//        ret = DAC_SPI_WriteReg(DAC_CMD_WRITEUPDATE_A, data);
+//        delay_ms(SWV_PERIOD-SWV_HIGH_DURATION);
+//    }
+//
+//    //initial value
+//    data = swvInitVoltageLSB + swvOffsetVoltageLSB;
+//    ret = DAC_SPI_WriteReg(DAC_CMD_WRITEUPDATE_A, data);
+//    if (ret) return -1;
+//
+//    return 0;
+//}
 
 /////////////////////////////////////////////////////////////////////
 // DAC_SPI_Init
