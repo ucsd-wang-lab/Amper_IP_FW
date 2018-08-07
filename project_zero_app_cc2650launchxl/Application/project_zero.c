@@ -189,7 +189,7 @@ static uint8_t scanRspData[] =
 };
 
 // GAP - Advertisement data (max size = 31 bytes, though this is
-// best kept short to conserve power while advertisting)
+// best kept short to conserve power while advertising)
 static uint8_t advertData[] =
 {
   // Flags; this sets the device to use limited discoverable
@@ -241,7 +241,7 @@ PIN_Config ledPinTable[] = {
   PIN_TERMINATE
 };
 
-//t.n.tmp 161107 DAC chip select pin configulation table
+//t.n.tmp 161107 DAC chip select pin configuration table
 /*
  * Initial DAC CS pin configuration table
  *   - DAC CS are HI
@@ -294,9 +294,9 @@ static unsigned short amperoAdcValue[AMPERO_ADC_BUFFER_SIZE];
 #define SWV_CTRL_LED_ON         0x01
 #define SWV_CTRL_SPIADC_INIT    0x02
 //#define SWV_CTRL_SWV_MEAS       0x03
-//#define SWV_CTRL_SWV_DATADISP   0x04
+#define SWV_CTRL_SWV_DATADISP   0x04
 //#define SWV_CTRL_CV_MEAS        0x05
-//#define SWV_CTRL_CV_DATADISP    0x06
+#define SWV_CTRL_CV_DATADISP    0x06
 //#define SWV_CTRL_SWV_MEAS05     0x07
 //t.n.tmp 170131
 #define SWV_CTRL_AMPERO_MEAS    0x08
@@ -1109,11 +1109,11 @@ void user_LedService_ValueChangeHandler(char_data_t *pCharData)
             case SWV_CTRL_LED_ON:
                 PIN_setOutputValue(ledPinHandle, Board_LED0, pCharData->data[0]);
                 break;
-//            case SWV_CTRL_SPIADC_INIT: //
-//                Log_info0("SPI, ADC init");
-//                DAC_SPI_Init();
-//                ADC_Init();
-//                break;
+            case SWV_CTRL_SPIADC_INIT:  //used in ampero
+                Log_info0("SPI, ADC init");
+                DAC_SPI_Init();
+                ADC_Init();
+                break;
 //            case SWV_CTRL_SWV_MEAS:
 //                DataService_SetParameter(DS_STRING_ID, sizeof("Measuring SWV!!!"), "Measuring SWV!!!");
 //                SWV_Meas04();
@@ -1134,29 +1134,29 @@ void user_LedService_ValueChangeHandler(char_data_t *pCharData)
 //                SWV_Meas07();
 //                DataService_SetParameter(DS_STRING_ID, sizeof("SWV Done!!!"), "SWV Done!!!");
 //                break;
-//            case SWV_CTRL_SWV_DATADISP:
-//                if (adcDataReady >= 1)
-//                {
-//                    ADC_Data_Disp02();
-//                }
-//                else
-//                {
-//                }
-//                break;
+            case SWV_CTRL_SWV_DATADISP:
+                if (adcDataReady >= 1)
+                {
+                    ADC_Data_Disp02();
+                }
+                else
+                {
+                }
+                break;
 //            case SWV_CTRL_CV_MEAS:
 //                DataService_SetParameter(DS_STRING_ID, sizeof("Measuring CV!!!"), "Measuring CV!!!");
 //                CV_Meas01();
 //                DataService_SetParameter(DS_STRING_ID, sizeof("CV Done!!!"), "CV Done!!!");
 //                break;
-//            case SWV_CTRL_CV_DATADISP:
-//                if (adcDataReady >= 1)
-//                {
-//                    ADC_Data_Disp02();
-//                }
-//                else
-//                {
-//                }
-//                break;
+            case SWV_CTRL_CV_DATADISP:
+                if (adcDataReady >= 1)
+                {
+                    ADC_Data_Disp02();
+                }
+                else
+                {
+                }
+                break;
             case SWV_CTRL_AMPERO_MEAS:  //t.n.tmp 170131
                 DataService_SetParameter(DS_STRING_ID, sizeof("Measuring Ampero!!!"), "Measuring Ampero!!!");
                 //AMPERO_Meas01();
@@ -1229,7 +1229,6 @@ void user_LedService_ValueChangeHandler(char_data_t *pCharData)
                 amperoPeriod = swvParamData;
                 break;
             case SWV_PARAM_ADDR_AMPERO_OFFSET_VOLTAGE:
-                PIN_setOutputValue(ledPinHandle, Board_LED0, 0);
                 amperoOffsetVoltage = swvParamData;
                 break;
             case SWV_PARAM_ADDR_AMPERO_POTENTIAL_OFFSET:
@@ -2073,6 +2072,16 @@ int AMPERO_Meas02(void)
         //stop flag check and break
         if (amperoStopFlag == 1) break;
 
+        //toggle LED
+        if (PIN_getOutputValue(Board_LED0))
+        {
+            PIN_setOutputValue(ledPinHandle, Board_LED0, 0);
+        }
+        else
+        {
+            PIN_setOutputValue(ledPinHandle, Board_LED0, 1);
+        }
+
         amperoAdcValue[adcDataNumTmp] = ADC_Sample();
         adcDataNumTmp++;
         if ( adcDataNumTmp >= AMPERO_ADC_BUFFER_SIZE )
@@ -2111,6 +2120,8 @@ int AMPERO_Meas02(void)
 
     }
 
+    //ensure LED is on following measurement
+    PIN_setOutputValue(ledPinHandle, Board_LED0, 1);
 
     //initial value; only offset (apply 0 V)
     dacDataLSB = amperoOffsetVoltageLSB;

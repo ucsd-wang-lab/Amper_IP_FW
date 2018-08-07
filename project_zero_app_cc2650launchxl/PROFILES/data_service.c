@@ -47,7 +47,7 @@
  */
 #include <string.h>
 
-//#define xdc_runtime_Log_DISABLE_ALL 1  // Add to disable logs from this file
+#define xdc_runtime_Log_DISABLE_ALL 1  // Add to disable logs from this file
 #include <xdc/runtime/Log.h>
 #include <xdc/runtime/Diags.h>
 
@@ -279,7 +279,7 @@ bStatus_t DataService_SetParameter( uint8_t param, uint16_t len, void *value )
   uint16_t *pValLen;
   uint16_t valMinLen;
   uint16_t valMaxLen;
-  uint8_t sendNotiInd = FALSE;
+  uint8_t sendNotiInd = TRUE;
   gattCharCfg_t *attrConfig;
   uint8_t needAuth;
 
@@ -298,7 +298,7 @@ bStatus_t DataService_SetParameter( uint8_t param, uint16_t len, void *value )
       pValLen   = &ds_StreamValLen;
       valMinLen =  DS_STREAM_LEN_MIN;
       valMaxLen =  DS_STREAM_LEN;
-      sendNotiInd = TRUE;
+      sendNotiInd = FALSE;
       attrConfig  = ds_StreamConfig;
       needAuth    = FALSE; // Change if authenticated link is required for sending.
       Log_info2("SetParameter : %s len: %d", (IArg)"Stream", (IArg)len);
