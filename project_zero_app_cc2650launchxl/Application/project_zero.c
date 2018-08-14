@@ -298,10 +298,8 @@ static unsigned short amperoAdcValue[AMPERO_ADC_BUFFER_SIZE];
 #define SWV_CTRL_AMPERO_MEAS    0x08
 //#define SWV_CTRL_SWV_MEAS06     0x09
 #define SWV_CTRL_AMPERO_STOP    0x0A
-//t.n.tmp 170210
 //#define SWV_CTRL_SWV_MEAS07     0x0B
 
-//t.n.tmp 161208
 //SWV param address
 //#define SWV_PARAM_ADDR_INIT_WAIT       0x0001
 //#define SWV_PARAM_ADDR_FREQ            0x0002
@@ -315,7 +313,6 @@ static unsigned short amperoAdcValue[AMPERO_ADC_BUFFER_SIZE];
 //#define SWV_PARAM_ADDR_INIT_VOLTAGE_OFFSET    0x000A
 //#define SWV_PARAM_ADDR_FINAL_VOLTAGE_OFFSET   0x000B
 
-//t.n.tmp 170131
 //AMPERO param address
 #define SWV_PARAM_ADDR_AMPERO_POINTS   0x000C
 #define SWV_PARAM_ADDR_AMPERO_PERIOD   0x000D
@@ -361,7 +358,6 @@ static unsigned short amperoAdcValue[AMPERO_ADC_BUFFER_SIZE];
 //static int cvOffsetVoltage   = CV_OFFSET_VOLTAGE;
 //t.n.tmp kokomade
 
-//t.n.tmp 170131
 //Ampero parameters (default)
 #define AMPERO_POINTS           60      //measurement points
 #define AMPERO_PERIOD           1000    //period in ms
@@ -378,9 +374,6 @@ static unsigned short amperoStopFlag        = 1;
 
 // Global display handle
 Display_Handle dispHandle;
-/////////////////////////////////////////////////////////////////////
-//t.n.tmp 161102
-/////////////////////////////////////////////////////////////////////
 
 //DAC command
 #define DAC_CMD_SOFTRESET_AB    0x2F
@@ -1154,14 +1147,6 @@ void user_LedService_ValueChangeHandler(char_data_t *pCharData)
                 amperoStopFlag = 1;
                 break;
         }
-        //t.n.tmp 161206 kokomade
-
-      // Set the output value equal to the received value. 0 is off, not 0 is on
-      //t.n.tmp 161206
-      //PIN_setOutputValue(ledPinHandle, Board_LED0, pCharData->data[0]);
-      //Log_info2("Turning %s %s",
-        //        (IArg)"\x1b[31mLED0\x1b[0m",
-        //        (IArg)(pCharData->data[0]?"on":"off"));
       break;
 
     case LS_LED1_ID:
@@ -1172,7 +1157,6 @@ void user_LedService_ValueChangeHandler(char_data_t *pCharData)
 
       // Do something useful with pCharData->data here
       // -------------------------
-        //t.n.tmp 161208 kokokara
         swvParamAddress = (pCharData->data[1])*256 + pCharData->data[0];
         swvParamData = (pCharData->data[3])*256 + pCharData->data[2];
         Log_info4("SWV Parameter --- %d, %d, %d, %d",pCharData->data[0], pCharData->data[1],pCharData->data[2], pCharData->data[3]);
@@ -1223,16 +1207,7 @@ void user_LedService_ValueChangeHandler(char_data_t *pCharData)
                 amperoPotentialOffset = swvParamData;
                 break;
         }
-        //t.n.tmp 161208 kokomade
-
-      // Set the output value equal to the received value. 0 is off, not 0 is on
-      //t.n.tmp 161208 comment out
-      //PIN_setOutputValue(ledPinHandle, Board_LED1, pCharData->data[0]);
-      //Log_info2("Turning %s %s",
-        //        (IArg)"\x1b[32mLED1\x1b[0m",
-        //        (IArg)(pCharData->data[0]?"on":"off"));
       break;
-
   default:
     return;
   }

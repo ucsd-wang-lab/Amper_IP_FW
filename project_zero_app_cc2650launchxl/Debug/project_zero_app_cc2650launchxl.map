@@ -1,7 +1,7 @@
 ******************************************************************************
                   TI ARM Linker PC v5.2.6                      
 ******************************************************************************
->> Linked Tue Aug 14 10:05:28 2018
+>> Linked Tue Aug 14 11:52:33 2018
 
 OUTPUT FILE NAME:   <project_zero_app_cc2650launchxl.out>
 ENTRY POINT SYMBOL: "ResetISR"  address: 00006b09

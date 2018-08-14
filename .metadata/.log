@@ -3674,3 +3674,295 @@ for instructions.
 
 !ENTRY org.eclipse.launchbar.core 2 0 2018-08-14 09:15:57.249
 !MESSAGE Enablement expression is missing for config provider for org.eclipse.cdt.debug.core.coreBuildDescriptorType
+!SESSION 2018-08-14 10:09:43.617 -----------------------------------------------
+eclipse.buildId=4.7.1.M20171009-0410
+java.version=1.8.0_112
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=en_US
+Framework arguments:  -product com.ti.ccstudio.branding.product
+Command-line arguments:  -os win32 -ws win32 -arch x86 -product com.ti.ccstudio.branding.product
+
+!ENTRY com.ti.common.core 4 0 2018-08-14 10:09:50.250
+!MESSAGE path=ccs_base/DebugServer
+
+!ENTRY com.ti.common.core 4 0 2018-08-14 10:09:50.250
+!MESSAGE debugServerDir=C:/ti/ccsv8/ccs_base/DebugServer
+
+!ENTRY org.eclipse.launchbar.core 2 0 2018-08-14 10:31:08.774
+!MESSAGE Enablement expression is missing for descriptor type org.eclipse.cdt.debug.core.coreBuildDescriptorType
+
+!ENTRY org.eclipse.launchbar.core 2 0 2018-08-14 10:31:08.774
+!MESSAGE Enablement expression is missing for config provider for org.eclipse.cdt.debug.core.coreBuildDescriptorType
+
+!ENTRY com.ti.ccstudio.debug 1 0 2018-08-14 10:31:39.185
+!MESSAGE DS_ERROR: Cortex_M3_0: Failed Board Reset: (Error -260 @ 0x0) An attempt to connect to the XDS110 failed. The cause may be one or more of: no XDS110 is connected, invalid firmware update, invalid XDS110 serial number, or faulty USB cable. The firmware and serial number may be updated using the xdsdfu utility found in the .../ccs_base/common/uscif/xds110 directory of your installation. View the ReadMe.txt file there for instructions. (Emulation package 7.0.188.0) 
+
+
+!ENTRY com.ti.ccstudio.debug 1 0 2018-08-14 10:31:39.315
+!MESSAGE DS_ERROR: IcePick_C: Error connecting to the target: (Error -260 @ 0x0) An attempt to connect to the XDS110 failed. The cause may be one or more of: no XDS110 is connected, invalid firmware update, invalid XDS110 serial number, or faulty USB cable. The firmware and serial number may be updated using the xdsdfu utility found in the .../ccs_base/common/uscif/xds110 directory of your installation. View the ReadMe.txt file there for instructions. (Emulation package 7.0.188.0) 
+
+
+!ENTRY com.ti.ccstudio.debug 1 0 2018-08-14 10:31:39.766
+!MESSAGE DS_ERROR: Error connecting to the target:
+(Error -260 @ 0x0)
+An attempt to connect to the XDS110 failed.
+The cause may be one or more of: no XDS110 is connected, invalid
+firmware update, invalid XDS110 serial number, or faulty USB
+cable. The firmware and serial number may be updated using the
+xdsdfu utility found in the .../ccs_base/common/uscif/xds110
+directory of your installation. View the ReadMe.txt file there
+for instructions.
+(Emulation package 7.0.188.0)
+
+
+!ENTRY com.ti.ccstudio.debug 1 0 2018-08-14 10:32:42.550
+!MESSAGE DS_ERROR: IcePick_C: Error connecting to the target: (Error -260 @ 0x0) An attempt to connect to the XDS110 failed. The cause may be one or more of: no XDS110 is connected, invalid firmware update, invalid XDS110 serial number, or faulty USB cable. The firmware and serial number may be updated using the xdsdfu utility found in the .../ccs_base/common/uscif/xds110 directory of your installation. View the ReadMe.txt file there for instructions. (Emulation package 7.0.188.0) 
+
+
+!ENTRY com.ti.ccstudio.debug 1 0 2018-08-14 10:32:42.627
+!MESSAGE DS_ERROR: Error connecting to the target:
+(Error -260 @ 0x0)
+An attempt to connect to the XDS110 failed.
+The cause may be one or more of: no XDS110 is connected, invalid
+firmware update, invalid XDS110 serial number, or faulty USB
+cable. The firmware and serial number may be updated using the
+xdsdfu utility found in the .../ccs_base/common/uscif/xds110
+directory of your installation. View the ReadMe.txt file there
+for instructions.
+(Emulation package 7.0.188.0)
+
+
+!ENTRY com.ti.ccstudio.debug 1 0 2018-08-14 10:33:05.703
+!MESSAGE DS_ERROR: IcePick_C: Error connecting to the target: (Error -260 @ 0x0) An attempt to connect to the XDS110 failed. The cause may be one or more of: no XDS110 is connected, invalid firmware update, invalid XDS110 serial number, or faulty USB cable. The firmware and serial number may be updated using the xdsdfu utility found in the .../ccs_base/common/uscif/xds110 directory of your installation. View the ReadMe.txt file there for instructions. (Emulation package 7.0.188.0) 
+
+
+!ENTRY com.ti.ccstudio.debug 1 0 2018-08-14 10:33:05.792
+!MESSAGE DS_ERROR: Error connecting to the target:
+(Error -260 @ 0x0)
+An attempt to connect to the XDS110 failed.
+The cause may be one or more of: no XDS110 is connected, invalid
+firmware update, invalid XDS110 serial number, or faulty USB
+cable. The firmware and serial number may be updated using the
+xdsdfu utility found in the .../ccs_base/common/uscif/xds110
+directory of your installation. View the ReadMe.txt file there
+for instructions.
+(Emulation package 7.0.188.0)
+
+
+!ENTRY com.ti.ccstudio.debug 1 0 2018-08-14 10:33:16.094
+!MESSAGE DS_ERROR: IcePick_C: Error connecting to the target: (Error -242 @ 0x0) A router subpath could not be accessed. The board configuration file is probably incorrect. (Emulation package 7.0.188.0) 
+
+
+!ENTRY com.ti.ccstudio.debug 1 0 2018-08-14 10:33:16.131
+!MESSAGE DS_ERROR: Error connecting to the target:
+(Error -242 @ 0x0)
+A router subpath could not be accessed.
+The board configuration file is probably incorrect.
+(Emulation package 7.0.188.0)
+
+
+!ENTRY com.ti.ccstudio.debug 1 0 2018-08-14 10:33:20.842
+!MESSAGE DS_ERROR: IcePick_C: Error connecting to the target: (Error -242 @ 0x0) A router subpath could not be accessed. The board configuration file is probably incorrect. (Emulation package 7.0.188.0) 
+
+
+!ENTRY com.ti.ccstudio.debug 1 0 2018-08-14 10:33:20.880
+!MESSAGE DS_ERROR: Error connecting to the target:
+(Error -242 @ 0x0)
+A router subpath could not be accessed.
+The board configuration file is probably incorrect.
+(Emulation package 7.0.188.0)
+
+
+!ENTRY com.ti.ccstudio.debug 1 0 2018-08-14 10:33:39.640
+!MESSAGE DS_ERROR: IcePick_C: Error connecting to the target: (Error -242 @ 0x0) A router subpath could not be accessed. The board configuration file is probably incorrect. (Emulation package 7.0.188.0) 
+
+
+!ENTRY com.ti.ccstudio.debug 1 0 2018-08-14 10:33:39.667
+!MESSAGE DS_ERROR: Error connecting to the target:
+(Error -242 @ 0x0)
+A router subpath could not be accessed.
+The board configuration file is probably incorrect.
+(Emulation package 7.0.188.0)
+
+
+!ENTRY com.ti.ccstudio.debug 1 0 2018-08-14 10:33:48.883
+!MESSAGE DS_ERROR: IcePick_C: Error connecting to the target: (Error -242 @ 0x0) A router subpath could not be accessed. The board configuration file is probably incorrect. (Emulation package 7.0.188.0) 
+
+
+!ENTRY com.ti.ccstudio.debug 1 0 2018-08-14 10:33:48.915
+!MESSAGE DS_ERROR: Error connecting to the target:
+(Error -242 @ 0x0)
+A router subpath could not be accessed.
+The board configuration file is probably incorrect.
+(Emulation package 7.0.188.0)
+
+
+!ENTRY com.ti.ccstudio.debug 1 0 2018-08-14 10:33:59.442
+!MESSAGE DS_ERROR: IcePick_C: Error connecting to the target: (Error -242 @ 0x0) A router subpath could not be accessed. The board configuration file is probably incorrect. (Emulation package 7.0.188.0) 
+
+
+!ENTRY com.ti.ccstudio.debug 1 0 2018-08-14 10:33:59.477
+!MESSAGE DS_ERROR: Error connecting to the target:
+(Error -242 @ 0x0)
+A router subpath could not be accessed.
+The board configuration file is probably incorrect.
+(Emulation package 7.0.188.0)
+
+
+!ENTRY com.ti.ccstudio.debug 1 0 2018-08-14 10:34:00.356
+!MESSAGE DS_ERROR: IcePick_C: Error connecting to the target: (Error -242 @ 0x0) A router subpath could not be accessed. The board configuration file is probably incorrect. (Emulation package 7.0.188.0) 
+
+
+!ENTRY com.ti.ccstudio.debug 1 0 2018-08-14 10:34:00.386
+!MESSAGE DS_ERROR: Error connecting to the target:
+(Error -242 @ 0x0)
+A router subpath could not be accessed.
+The board configuration file is probably incorrect.
+(Emulation package 7.0.188.0)
+
+
+!ENTRY com.ti.ccstudio.debug 1 0 2018-08-14 10:34:36.944
+!MESSAGE DS_ERROR: IcePick_C: Error connecting to the target: (Error -242 @ 0x0) A router subpath could not be accessed. The board configuration file is probably incorrect. (Emulation package 7.0.188.0) 
+
+
+!ENTRY com.ti.ccstudio.debug 1 0 2018-08-14 10:34:37.141
+!MESSAGE DS_ERROR: Error connecting to the target:
+(Error -242 @ 0x0)
+A router subpath could not be accessed.
+The board configuration file is probably incorrect.
+(Emulation package 7.0.188.0)
+
+
+!ENTRY com.ti.ccstudio.debug 1 0 2018-08-14 10:38:42.419
+!MESSAGE DS_ERROR: IcePick_C: Error connecting to the target: (Error -242 @ 0x0) A router subpath could not be accessed. The board configuration file is probably incorrect. (Emulation package 7.0.188.0) 
+
+
+!ENTRY com.ti.ccstudio.debug 1 0 2018-08-14 10:38:42.698
+!MESSAGE DS_ERROR: Error connecting to the target:
+(Error -242 @ 0x0)
+A router subpath could not be accessed.
+The board configuration file is probably incorrect.
+(Emulation package 7.0.188.0)
+
+
+!ENTRY com.ti.ccstudio.debug 1 0 2018-08-14 10:40:23.604
+!MESSAGE DS_ERROR: Cortex_M3_0: Failed Board Reset: (Error -260 @ 0x0) An attempt to connect to the XDS110 failed. The cause may be one or more of: no XDS110 is connected, invalid firmware update, invalid XDS110 serial number, or faulty USB cable. The firmware and serial number may be updated using the xdsdfu utility found in the .../ccs_base/common/uscif/xds110 directory of your installation. View the ReadMe.txt file there for instructions. (Emulation package 7.0.188.0) 
+
+
+!ENTRY com.ti.ccstudio.debug 1 0 2018-08-14 10:40:23.654
+!MESSAGE DS_ERROR: IcePick_C: Error connecting to the target: (Error -260 @ 0x0) An attempt to connect to the XDS110 failed. The cause may be one or more of: no XDS110 is connected, invalid firmware update, invalid XDS110 serial number, or faulty USB cable. The firmware and serial number may be updated using the xdsdfu utility found in the .../ccs_base/common/uscif/xds110 directory of your installation. View the ReadMe.txt file there for instructions. (Emulation package 7.0.188.0) 
+
+
+!ENTRY com.ti.ccstudio.debug 1 0 2018-08-14 10:40:23.874
+!MESSAGE DS_ERROR: Error connecting to the target:
+(Error -260 @ 0x0)
+An attempt to connect to the XDS110 failed.
+The cause may be one or more of: no XDS110 is connected, invalid
+firmware update, invalid XDS110 serial number, or faulty USB
+cable. The firmware and serial number may be updated using the
+xdsdfu utility found in the .../ccs_base/common/uscif/xds110
+directory of your installation. View the ReadMe.txt file there
+for instructions.
+(Emulation package 7.0.188.0)
+
+
+!ENTRY com.ti.ccstudio.debug 1 0 2018-08-14 10:40:32.308
+!MESSAGE DS_ERROR: IcePick_C: Error connecting to the target: (Error -275 @ 0x0) The attempt to poll a target device exceeded its timeout limit. The utility or debugger has requested that a target device be repeatedly accessed for a specific data or status value. This has failed because the built-in limit for the maximum number of attempts when polling the JTAG scan-path has been exceeded. (Emulation package 7.0.188.0) 
+
+
+!ENTRY com.ti.ccstudio.debug 1 0 2018-08-14 10:40:32.321
+!MESSAGE DS_ERROR: Error connecting to the target:
+(Error -275 @ 0x0)
+The attempt to poll a target device exceeded its timeout limit.
+The utility or debugger has requested that a target device be
+repeatedly accessed for a specific data or status value.
+This has failed because the built-in limit for the maximum number
+of attempts when polling the JTAG scan-path has been exceeded.
+(Emulation package 7.0.188.0)
+
+
+!ENTRY com.ti.ccstudio.debug 1 0 2018-08-14 10:40:37.686
+!MESSAGE DS_ERROR: IcePick_C: Error connecting to the target: (Error -275 @ 0x0) The attempt to poll a target device exceeded its timeout limit. The utility or debugger has requested that a target device be repeatedly accessed for a specific data or status value. This has failed because the built-in limit for the maximum number of attempts when polling the JTAG scan-path has been exceeded. (Emulation package 7.0.188.0) 
+
+
+!ENTRY com.ti.ccstudio.debug 1 0 2018-08-14 10:40:37.701
+!MESSAGE DS_ERROR: Error connecting to the target:
+(Error -275 @ 0x0)
+The attempt to poll a target device exceeded its timeout limit.
+The utility or debugger has requested that a target device be
+repeatedly accessed for a specific data or status value.
+This has failed because the built-in limit for the maximum number
+of attempts when polling the JTAG scan-path has been exceeded.
+(Emulation package 7.0.188.0)
+
+!SESSION 2018-08-14 10:41:46.307 -----------------------------------------------
+eclipse.buildId=4.7.1.M20171009-0410
+java.version=1.8.0_112
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=en_US
+Framework arguments:  -product com.ti.ccstudio.branding.product
+Command-line arguments:  -os win32 -ws win32 -arch x86 -product com.ti.ccstudio.branding.product
+
+!ENTRY com.ti.common.core 4 0 2018-08-14 10:41:52.727
+!MESSAGE path=ccs_base/DebugServer
+
+!ENTRY com.ti.common.core 4 0 2018-08-14 10:41:52.727
+!MESSAGE debugServerDir=C:/ti/ccsv8/ccs_base/DebugServer
+!SESSION 2018-08-14 10:55:54.698 -----------------------------------------------
+eclipse.buildId=4.7.1.M20171009-0410
+java.version=1.8.0_112
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=en_US
+Framework arguments:  -product com.ti.ccstudio.branding.product
+Command-line arguments:  -os win32 -ws win32 -arch x86 -product com.ti.ccstudio.branding.product
+
+!ENTRY com.ti.common.core 4 0 2018-08-14 10:55:56.216
+!MESSAGE path=ccs_base/DebugServer
+
+!ENTRY com.ti.common.core 4 0 2018-08-14 10:55:56.216
+!MESSAGE debugServerDir=C:/ti/ccsv8/ccs_base/DebugServer
+!SESSION 2018-08-14 10:57:34.416 -----------------------------------------------
+eclipse.buildId=4.7.1.M20171009-0410
+java.version=1.8.0_112
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=en_US
+Framework arguments:  -product com.ti.ccstudio.branding.product
+Command-line arguments:  -os win32 -ws win32 -arch x86 -product com.ti.ccstudio.branding.product
+
+!ENTRY com.ti.common.core 4 0 2018-08-14 10:57:35.922
+!MESSAGE path=ccs_base/DebugServer
+
+!ENTRY com.ti.common.core 4 0 2018-08-14 10:57:35.922
+!MESSAGE debugServerDir=C:/ti/ccsv8/ccs_base/DebugServer
+!SESSION 2018-08-14 11:03:27.647 -----------------------------------------------
+eclipse.buildId=4.7.1.M20171009-0410
+java.version=1.8.0_112
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=en_US
+Framework arguments:  -product com.ti.ccstudio.branding.product
+Command-line arguments:  -os win32 -ws win32 -arch x86 -product com.ti.ccstudio.branding.product
+
+!ENTRY com.ti.common.core 4 0 2018-08-14 11:03:36.114
+!MESSAGE path=ccs_base/DebugServer
+
+!ENTRY com.ti.common.core 4 0 2018-08-14 11:03:36.129
+!MESSAGE debugServerDir=C:/ti/ccsv8/ccs_base/DebugServer
+!SESSION 2018-08-14 11:20:36.309 -----------------------------------------------
+eclipse.buildId=4.7.1.M20171009-0410
+java.version=1.8.0_112
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=en_US
+Framework arguments:  -product com.ti.ccstudio.branding.product
+Command-line arguments:  -os win32 -ws win32 -arch x86 -product com.ti.ccstudio.branding.product
+
+!ENTRY com.ti.common.core 4 0 2018-08-14 11:20:38.312
+!MESSAGE path=ccs_base/DebugServer
+
+!ENTRY com.ti.common.core 4 0 2018-08-14 11:20:38.312
+!MESSAGE debugServerDir=C:/ti/ccsv8/ccs_base/DebugServer
+
+!ENTRY org.eclipse.launchbar.core 2 0 2018-08-14 11:52:59.234
+!MESSAGE Enablement expression is missing for descriptor type org.eclipse.cdt.debug.core.coreBuildDescriptorType
+
+!ENTRY org.eclipse.launchbar.core 2 0 2018-08-14 11:52:59.234
+!MESSAGE Enablement expression is missing for config provider for org.eclipse.cdt.debug.core.coreBuildDescriptorType
