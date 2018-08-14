@@ -49,7 +49,7 @@
  */
 
 #include <xdc/runtime/Error.h>
-
+#define xdc_runtime_Log_DISABLE_ALL 1  // Add to disable logs from this file
 #include <ti/drivers/Power.h>
 #include <ti/drivers/power/PowerCC26XX.h>
 #include <ti/sysbios/BIOS.h>
@@ -137,8 +137,8 @@ int main()
   /* Initialize the RTOS Log formatting and output to UART in Idle thread.
    * Note: Define xdc_runtime_Log_DISABLE_ALL to remove all impact of Log.
    * Note: NULL as Params gives 115200,8,N,1 and Blocking mode */
-  UART_init();
-  UartLog_init(UART_open(Board_UART, NULL));
+//  UART_init();
+//  UartLog_init(UART_open(Board_UART, NULL));
 
   /* Initialize ICall module */
   ICall_init();

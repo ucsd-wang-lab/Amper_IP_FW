@@ -82,7 +82,7 @@ extern const PIN_Config BoardGpioInitTable[];
 
 /* Discrete inputs */
 #define Board_BTN1                  IOID_13
-#define Board_BTN2                  PIN_UNASSIGNED
+#define Board_BTN2                  IOID_12
 
 /* UART Board */
 #define Board_UART_RX               PIN_UNASSIGNED          /* RXD  */

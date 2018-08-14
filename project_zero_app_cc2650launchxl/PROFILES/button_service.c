@@ -47,7 +47,7 @@
  */
 #include <string.h>
 
-//#define xdc_runtime_Log_DISABLE_ALL 1  // Add to disable logs from this file
+#define xdc_runtime_Log_DISABLE_ALL 1  // Add to disable logs from this file
 #include <xdc/runtime/Log.h>
 #include <xdc/runtime/Diags.h>
 
@@ -122,8 +122,6 @@ static uint16_t bs_BUTTON0ValLen = BS_BUTTON0_LEN_MIN;
 
 // Characteristic "BUTTON0" Client Characteristic Configuration Descriptor
 static gattCharCfg_t *bs_BUTTON0Config;
-
-
 
 // Characteristic "BUTTON1" Properties (for declaration)
 static uint8_t bs_BUTTON1Props = GATT_PROP_NOTIFY | GATT_PROP_READ;
