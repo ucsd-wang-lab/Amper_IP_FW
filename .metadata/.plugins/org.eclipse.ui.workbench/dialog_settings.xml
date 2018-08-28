@@ -20,6 +20,10 @@
 		<item value="TIXDS110" key="com.ti.ccstudio.system.setup.ui.editors.connectionType"/>
 		<item value="Texas Instruments XDS110 USB Debug Probe" key="com.ti.ccstudio.system.setup.ui.editors.connectionName"/>
 	</section>
+	<section name="targetStatusBarPreferencePage">
+		<item value="Router" key="targetStatusBarPreferencePage.processorType"/>
+		<item value="TMS240C1" key="targetStatusBarPreferencePage.processorId"/>
+	</section>
 	<section name="ImportExportAction">
 	</section>
 </section>

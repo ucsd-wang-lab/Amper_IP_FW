@@ -323,9 +323,9 @@ bStatus_t DataService_SetParameter( uint8_t param, uint16_t len, void *value )
                        (attrConfig[0].value==1)?"Notification enabled" :
                                                 "Indication enabled"));
       // Try to send notification.
-      GATTServApp_ProcessCharCfg( attrConfig, pAttrVal, needAuth,
-                                  Data_ServiceAttrTbl, GATT_NUM_ATTRS( Data_ServiceAttrTbl ),
-                                  ds_icall_rsp_task_id,  Data_Service_ReadAttrCB);
+//      GATTServApp_ProcessCharCfg( attrConfig, pAttrVal, needAuth,
+//                                  Data_ServiceAttrTbl, GATT_NUM_ATTRS( Data_ServiceAttrTbl ),
+//                                  ds_icall_rsp_task_id,  Data_Service_ReadAttrCB);
     }
   }
   else

@@ -70,9 +70,9 @@
 #include "Button_Service.h"
 #include "Data_Service.h"
 
-//t.n.tmp 161102 include SPI
+//include SPI
 #include <ti/drivers/SPI.h>
-//t.n.tmp 161111 include adc
+//include ADC
 #include "scif_osal_tirtos.h"
 #include "scif_framework.h"
 #include "scif.h"
@@ -81,6 +81,8 @@
 /*********************************************************************
  * CONSTANTS
  */
+
+
 // Advertising interval when device is discoverable (units of 625us, 160=100ms)
 #define DEFAULT_ADVERTISING_INTERVAL          160
 
@@ -104,7 +106,7 @@
 #define PRZ_PERIODIC_EVT                      0x0004
 #define PRZ_CONN_EVT_END_EVT                  0x0008
 
-//t.n.tmp 161107 delay defined
+//delay defined
 //TODO check definition
 /* Delay */
 //#ifdef TI_DRIVERS_I2C_INCLUDED
@@ -113,7 +115,6 @@
 //#else
 #define delay_ms(i) ( CPUdelay(12000*(i)) )
 //#endif
-//t.n.tmp kokomade
 
 /*********************************************************************
  * TYPEDEFS
@@ -203,12 +204,12 @@ static uint8_t advertData[] =
   // complete name
   13,
   GAP_ADTYPE_LOCAL_NAME_COMPLETE,
-  'A', 'm', 'p', ' ', 'J', 'u', 'l', '1', '8', '_', '0', '2',
+  'A', 'm', 'p', ' ', 'J', 'u', 'l', '1', '8', '_', '0', '1',
 
 };
 
 // GAP GATT Attributes
-static uint8_t attDeviceName[GAP_DEVICE_NAME_LEN] = "Amp Jul18_02";
+static uint8_t attDeviceName[GAP_DEVICE_NAME_LEN] = "Amp Jul18_01";
 
 // Globals used for ATT Response retransmission
 static gattMsgEvent_t *pAttRsp = NULL;
@@ -237,7 +238,7 @@ PIN_Config ledPinTable[] = {
   PIN_TERMINATE
 };
 
-//t.n.tmp 161107 DAC chip select pin configuration table
+//DAC chip select pin configuration table
 /*
  * Initial DAC CS pin configuration table
  *   - DAC CS are HI
@@ -247,7 +248,7 @@ PIN_Config daccsPinTable[] = {
   PIN_TERMINATE
 };
 
-//t.n.tmp 161111 ADC pin configuration table
+//ADC pin configuration table
 /*
  * Initial ADC pin configuration table
  *   - ADC input
@@ -275,17 +276,16 @@ static Clock_Struct button1DebounceClock;
 static uint8_t button0State = 0;
 static uint8_t button1State = 0;
 
-//t.n.tmp 161115 adc data sengen
+//adc data sengen
 #define SWV_ADC_BUFFER_SIZE 512 //ADC buffer size
 static unsigned short adcDataReady = 0;
 static unsigned short adcDataDisplayed = 0;
 static unsigned short adcValue[SWV_ADC_BUFFER_SIZE];
-//t.n.tmp 170227 adc data definition
+//adc data definition
 #define AMPERO_ADC_BUFFER_SIZE 32 //ADC buffer size
 static unsigned short amperoAdcValue[AMPERO_ADC_BUFFER_SIZE];
 
-//t.n.tmp 161206 control definition
-//SWV control hikisuu
+//control definition
 #define SWV_CTRL_LED_OFF        0x00
 #define SWV_CTRL_LED_ON         0x01
 #define SWV_CTRL_SPIADC_INIT    0x02
@@ -294,7 +294,6 @@ static unsigned short amperoAdcValue[AMPERO_ADC_BUFFER_SIZE];
 //#define SWV_CTRL_CV_MEAS        0x05
 #define SWV_CTRL_CV_DATADISP    0x06
 //#define SWV_CTRL_SWV_MEAS05     0x07
-//t.n.tmp 170131
 #define SWV_CTRL_AMPERO_MEAS    0x08
 //#define SWV_CTRL_SWV_MEAS06     0x09
 #define SWV_CTRL_AMPERO_STOP    0x0A
@@ -343,7 +342,6 @@ static unsigned short amperoAdcValue[AMPERO_ADC_BUFFER_SIZE];
 //static unsigned short swvInitVoltageOffset    = SWV_INIT_VOLTAGE + SWV_OFFSET_VOLTAGE;
 //static unsigned short swvFinalVoltageOffset   = SWV_FINAL_VOLTAGE + SWV_OFFSET_VOLTAGE;
 
-//t.n.tmp 161209
 //CV Parameters (default)
 //#define CV_SCAN_RATE        100     //scan rate (mV/sec)
 //#define CV_LOWER_POTENTIAL  0    //lower potential in mV
@@ -356,7 +354,6 @@ static unsigned short amperoAdcValue[AMPERO_ADC_BUFFER_SIZE];
 //static int cvUpperPotential  = CV_UPPER_POTENTIAL;
 //static int cvStepPotential   = CV_STEP_POTENTIAL;
 //static int cvOffsetVoltage   = CV_OFFSET_VOLTAGE;
-//t.n.tmp kokomade
 
 //Ampero parameters (default)
 #define AMPERO_POINTS           60      //measurement points
@@ -370,7 +367,6 @@ static unsigned short amperoOffsetVoltage   = AMPERO_OFFSET_VOLTAGE;
 static unsigned short amperoPotentialOffset = AMPERO_POTENTIAL_OFFSET;
 
 static unsigned short amperoStopFlag        = 1;
-//t.n.tmp kokomade
 
 // Global display handle
 Display_Handle dispHandle;
@@ -584,10 +580,8 @@ static void ProjectZero_init(void)
     Task_exit();
   }
 
-  //Turn on LED to know MCU is alive
-  PIN_setOutputValue(ledPinHandle, Board_LED0, 1);
 
-  //t.n.tmp 161107 Open DAC chip select pins
+  //pen DAC chip select pins
   // Open DAC chip select pins
   daccsPinHandle = PIN_open(&daccsPinState, daccsPinTable);
   if(!daccsPinHandle) {
@@ -632,11 +626,12 @@ static void ProjectZero_init(void)
   Clock_construct(&button1DebounceClock, buttonDebounceSwiFxn,
                   50 * (1000/Clock_tickPeriod),
                   &clockParams);
-
-  //t.n.tmp 170106 SPI, ADC init
+#if !defined(DEV_KIT)
+  //SPI, ADC init
   Log_info0("SPI, ADC init");
   DAC_SPI_Init();
   ADC_Init();
+#endif
 
 //  //2018 - CJB DAC Testing----------------------------------------------
 //  int ret;
@@ -735,19 +730,19 @@ static void ProjectZero_init(void)
   ButtonService_RegisterAppCBs( &user_Button_ServiceCBs );
   DataService_RegisterAppCBs( &user_Data_ServiceCBs );
 
-  // Placeholder variable for characteristic intialization
+  // Placeholder variable for characteristic initialization
   uint8_t initVal[40] = {0};
   uint8_t initString[] = "This is a pretty long string, isn't it!";
 
-  // Initalization of characteristics in LED_Service that can provide data.
+  // Initialization of characteristics in LED_Service that can provide data.
   LedService_SetParameter(LS_LED0_ID, LS_LED0_LEN, initVal);
   LedService_SetParameter(LS_LED1_ID, LS_LED1_LEN, initVal);
 
-  // Initalization of characteristics in Button_Service that can provide data.
+  // Initialization of characteristics in Button_Service that can provide data.
   ButtonService_SetParameter(BS_BUTTON0_ID, BS_BUTTON0_LEN, initVal);
   ButtonService_SetParameter(BS_BUTTON1_ID, BS_BUTTON1_LEN, initVal);
 
-  // Initalization of characteristics in Data_Service that can provide data.
+  // Initialization of characteristics in Data_Service that can provide data.
   DataService_SetParameter(DS_STRING_ID, sizeof(initString), initString);
   DataService_SetParameter(DS_STREAM_ID, DS_STREAM_LEN, initVal);
 
@@ -762,6 +757,9 @@ static void ProjectZero_init(void)
 
   // Register for GATT local events and ATT Responses pending for transmission
   GATT_RegisterForMsgs(selfEntity);
+
+  //Turn on LED to show MCU is alive
+  PIN_setOutputValue(ledPinHandle, Board_LED0, 1);
 }
 
 
@@ -985,9 +983,7 @@ static void user_processGapStateChangeEvt(gaprole_States_t newState)
     case GAPROLE_CONNECTED:
       {
         uint8_t peerAddress[B_ADDR_LEN];
-
         GAPRole_GetParameter(GAPROLE_CONN_BD_ADDR, peerAddress);
-
         char *cstr_peerAddress = Util_convertBdAddr2Str(peerAddress);
         Log_info1("Connected. Peer address: \x1b[32m%s\x1b[0m", (IArg)cstr_peerAddress);
        }
@@ -1065,154 +1061,152 @@ static void user_handleButtonPress(button_state_t *pState)
  */
 void user_LedService_ValueChangeHandler(char_data_t *pCharData)
 {
-  static uint8_t pretty_data_holder[16]; // 5 bytes as hex string "AA:BB:CC:DD:EE"
+    static uint8_t pretty_data_holder[16]; // 5 bytes as hex string "AA:BB:CC:DD:EE"
 
-    //t.n.tmp 161208
     unsigned short swvParamAddress;
     unsigned short swvParamData;
 
-  Util_convertArrayToHexString(pCharData->data, pCharData->dataLen,
+    Util_convertArrayToHexString(pCharData->data, pCharData->dataLen,
                                pretty_data_holder, sizeof(pretty_data_holder));
 
-  switch (pCharData->paramID)
-  {
-    case LS_LED0_ID:
-      Log_info3("Value Change msg: %s %s: %s",
-                (IArg)"LED Service",
-                (IArg)"LED0",
-                (IArg)pretty_data_holder);
+    switch (pCharData->paramID)
+    {
+        case LS_LED0_ID:
+          Log_info3("Value Change msg: %s %s: %s",
+                    (IArg)"LED Service",
+                    (IArg)"LED0",
+                    (IArg)pretty_data_holder);
 
-      // Do something useful with pCharData->data here
-      // -------------------------
-        //t.n.tmp 161206 kokokara
-        switch (pCharData->data[0])
-        {
-            case SWV_CTRL_LED_OFF:
-                PIN_setOutputValue(ledPinHandle, Board_LED0, pCharData->data[0]);
-                break;
-            case SWV_CTRL_LED_ON:
-                PIN_setOutputValue(ledPinHandle, Board_LED0, pCharData->data[0]);
-                break;
-            case SWV_CTRL_SPIADC_INIT:  //used in ampero
-                Log_info0("SPI, ADC init");
-                DAC_SPI_Init();
-                ADC_Init();
-                break;
-//            case SWV_CTRL_SWV_MEAS:
-//                DataService_SetParameter(DS_STRING_ID, sizeof("Measuring SWV!!!"), "Measuring SWV!!!");
-//                SWV_Meas04();
-//                DataService_SetParameter(DS_STRING_ID, sizeof("SWV Done!!!"), "SWV Done!!!");
-//                break;
-//            case SWV_CTRL_SWV_MEAS05:
-//                DataService_SetParameter(DS_STRING_ID, sizeof("Measuring SWV(05)!!!"), "Measuring SWV(05)!!!");
-//                SWV_Meas05();
-//                DataService_SetParameter(DS_STRING_ID, sizeof("SWV Done!!!"), "SWV Done!!!");
-//                break;
-//            case SWV_CTRL_SWV_MEAS06:   //t.n.tmp 170131
-//                DataService_SetParameter(DS_STRING_ID, sizeof("Measuring SWV(06)!!!"), "Measuring SWV(06)!!!");
-//                SWV_Meas06();
-//                DataService_SetParameter(DS_STRING_ID, sizeof("SWV Done!!!"), "SWV Done!!!");
-//                break;
-//            case SWV_CTRL_SWV_MEAS07:   //t.n.tmp 170210
-//                DataService_SetParameter(DS_STRING_ID, sizeof("Measuring SWV(07)!!!"), "Measuring SWV(07)!!!");
-//                SWV_Meas07();
-//                DataService_SetParameter(DS_STRING_ID, sizeof("SWV Done!!!"), "SWV Done!!!");
-//                break;
-            case SWV_CTRL_SWV_DATADISP:
-                if (adcDataReady >= 1)
-                {
-                    ADC_Data_Disp02();
-                }
-                break;
-//            case SWV_CTRL_CV_MEAS:
-//                DataService_SetParameter(DS_STRING_ID, sizeof("Measuring CV!!!"), "Measuring CV!!!");
-//                CV_Meas01();
-//                DataService_SetParameter(DS_STRING_ID, sizeof("CV Done!!!"), "CV Done!!!");
-//                break;
-            case SWV_CTRL_CV_DATADISP:
-                if (adcDataReady >= 1)
-                {
-                    ADC_Data_Disp02();
-                }
-                else
-                {
-                }
-                break;
-            case SWV_CTRL_AMPERO_MEAS:  //t.n.tmp 170131
-                DataService_SetParameter(DS_STRING_ID, sizeof("Measuring Ampero!!!"), "Measuring Ampero!!!");
-                //AMPERO_Meas01();
-                AMPERO_Meas02();    //t.n.tmp 170227
-                break;
-            case SWV_CTRL_AMPERO_STOP:  //t.n.tmp 170131
-                amperoStopFlag = 1;
-                break;
-        }
-      break;
+          // Do something useful with pCharData->data here
+          // -------------------------
+            switch (pCharData->data[0])
+            {
+                case SWV_CTRL_LED_OFF:
+                    PIN_setOutputValue(ledPinHandle, Board_LED0, pCharData->data[0]);
+                    PIN_setOutputValue(ledPinHandle, Board_LED1, pCharData->data[0]);
+                    break;
+                case SWV_CTRL_LED_ON:
+                    PIN_setOutputValue(ledPinHandle, Board_LED0, pCharData->data[0]);
+                    break;
+                case SWV_CTRL_SPIADC_INIT:  //used in ampero
+                    Log_info0("SPI, ADC init");
+                    DAC_SPI_Init();
+                    ADC_Init();
+                    break;
+        //            case SWV_CTRL_SWV_MEAS:
+        //                DataService_SetParameter(DS_STRING_ID, sizeof("Measuring SWV!!!"), "Measuring SWV!!!");
+        //                SWV_Meas04();
+        //                DataService_SetParameter(DS_STRING_ID, sizeof("SWV Done!!!"), "SWV Done!!!");
+        //                break;
+        //            case SWV_CTRL_SWV_MEAS05:
+        //                DataService_SetParameter(DS_STRING_ID, sizeof("Measuring SWV(05)!!!"), "Measuring SWV(05)!!!");
+        //                SWV_Meas05();
+        //                DataService_SetParameter(DS_STRING_ID, sizeof("SWV Done!!!"), "SWV Done!!!");
+        //                break;
+        //            case SWV_CTRL_SWV_MEAS06:   //t.n.tmp 170131
+        //                DataService_SetParameter(DS_STRING_ID, sizeof("Measuring SWV(06)!!!"), "Measuring SWV(06)!!!");
+        //                SWV_Meas06();
+        //                DataService_SetParameter(DS_STRING_ID, sizeof("SWV Done!!!"), "SWV Done!!!");
+        //                break;
+        //            case SWV_CTRL_SWV_MEAS07:   //t.n.tmp 170210
+        //                DataService_SetParameter(DS_STRING_ID, sizeof("Measuring SWV(07)!!!"), "Measuring SWV(07)!!!");
+        //                SWV_Meas07();
+        //                DataService_SetParameter(DS_STRING_ID, sizeof("SWV Done!!!"), "SWV Done!!!");
+        //                break;
+                case SWV_CTRL_SWV_DATADISP:
+                    if (adcDataReady >= 1)
+                    {
+                        ADC_Data_Disp02();
+                    }
+                    break;
+        //            case SWV_CTRL_CV_MEAS:
+        //                DataService_SetParameter(DS_STRING_ID, sizeof("Measuring CV!!!"), "Measuring CV!!!");
+        //                CV_Meas01();
+        //                DataService_SetParameter(DS_STRING_ID, sizeof("CV Done!!!"), "CV Done!!!");
+        //                break;
+                case SWV_CTRL_CV_DATADISP:
+                    if (adcDataReady >= 1)
+                    {
+                        ADC_Data_Disp02();
+                    }
+                    else
+                    {
+                    }
+                    break;
+                case SWV_CTRL_AMPERO_MEAS:
+                    PIN_setOutputValue(ledPinHandle, Board_LED1, 1);
+                    DataService_SetParameter(DS_STRING_ID, sizeof("Measuring Ampero!!!"), "Measuring Ampero!!!");
+                    //AMPERO_Meas01();
+                    AMPERO_Meas02();
+                    break;
+                case SWV_CTRL_AMPERO_STOP:
+                    amperoStopFlag = 1;
+                    PIN_setOutputValue(ledPinHandle, Board_LED1, 0);
+                    break;
+            }
+          break;
+        case LS_LED1_ID:
+          Log_info3("Value Change msg: %s %s: %s",(IArg)"LED Service",
+                    (IArg)"LED1",(IArg)pretty_data_holder);
 
-    case LS_LED1_ID:
-      Log_info3("Value Change msg: %s %s: %s",
-                (IArg)"LED Service",
-                (IArg)"LED1",
-                (IArg)pretty_data_holder);
+          // Do something useful with pCharData->data here
+          // -------------------------
+            swvParamAddress = (pCharData->data[1])*256 + pCharData->data[0];
+            swvParamData = (pCharData->data[3])*256 + pCharData->data[2];
+            Log_info4("SWV Parameter --- %d, %d, %d, %d",pCharData->data[0], pCharData->data[1],pCharData->data[2], pCharData->data[3]);
+            Log_info2("SWV Parameter --- Address: 0x%x, Data: %d",swvParamAddress, swvParamData);
 
-      // Do something useful with pCharData->data here
-      // -------------------------
-        swvParamAddress = (pCharData->data[1])*256 + pCharData->data[0];
-        swvParamData = (pCharData->data[3])*256 + pCharData->data[2];
-        Log_info4("SWV Parameter --- %d, %d, %d, %d",pCharData->data[0], pCharData->data[1],pCharData->data[2], pCharData->data[3]);
-        Log_info2("SWV Parameter --- Address: 0x%x, Data: %d",swvParamAddress, swvParamData);
-
-        switch (swvParamAddress)
-        {
-//            case SWV_PARAM_ADDR_INIT_WAIT:
-//                swvInitWait = swvParamData;
-//                break;
-//            case SWV_PARAM_ADDR_FREQ:
-//                swvFreq = swvParamData;
-//                swvPeriod = 1000/swvFreq;
-//                swvHighDuration = swvPeriod/2;
-//                break;
-//            case SWV_PARAM_ADDR_INIT_VOLTAGE:
-//                swvInitVoltage = swvParamData;
-//                break;
-//            case SWV_PARAM_ADDR_FINAL_VOLTAGE:
-//                swvFinalVoltage = swvParamData;
-//                break;
-//            case SWV_PARAM_ADDR_AMPLITUDE:
-//                swvAmplitude = swvParamData;
-//                break;
-//            case SWV_PARAM_ADDR_STEP_VOLTAGE:
-//                swvStepVoltage = swvParamData;
-//                break;
-//            case SWV_PARAM_ADDR_OFFSET_VOLTAGE:
-//                swvOffsetVoltage = swvParamData;
-//                break;
-//            case SWV_PARAM_ADDR_INIT_VOLTAGE_OFFSET:
-//                swvInitVoltageOffset = swvParamData;
-//                break;
-//            case SWV_PARAM_ADDR_FINAL_VOLTAGE_OFFSET:
-//                swvFinalVoltageOffset = swvParamData;
-//                break;
-            //ampero    //t.n.tmp 170131
-            case SWV_PARAM_ADDR_AMPERO_POINTS:
-                amperoPoints = swvParamData;
-                break;
-            case SWV_PARAM_ADDR_AMPERO_PERIOD:
-                amperoPeriod = swvParamData;
-                break;
-            case SWV_PARAM_ADDR_AMPERO_OFFSET_VOLTAGE:
-                amperoOffsetVoltage = swvParamData;
-                break;
-            case SWV_PARAM_ADDR_AMPERO_POTENTIAL_OFFSET:
-                amperoPotentialOffset = swvParamData;
-                break;
-        }
-      break;
-  default:
-    return;
-  }
+            switch (swvParamAddress)
+            {
+                //swv
+        //            case SWV_PARAM_ADDR_INIT_WAIT:
+        //                swvInitWait = swvParamData;
+        //                break;
+        //            case SWV_PARAM_ADDR_FREQ:
+        //                swvFreq = swvParamData;
+        //                swvPeriod = 1000/swvFreq;
+        //                swvHighDuration = swvPeriod/2;
+        //                break;
+        //            case SWV_PARAM_ADDR_INIT_VOLTAGE:
+        //                swvInitVoltage = swvParamData;
+        //                break;
+        //            case SWV_PARAM_ADDR_FINAL_VOLTAGE:
+        //                swvFinalVoltage = swvParamData;
+        //                break;
+        //            case SWV_PARAM_ADDR_AMPLITUDE:
+        //                swvAmplitude = swvParamData;
+        //                break;
+        //            case SWV_PARAM_ADDR_STEP_VOLTAGE:
+        //                swvStepVoltage = swvParamData;
+        //                break;
+        //            case SWV_PARAM_ADDR_OFFSET_VOLTAGE:
+        //                swvOffsetVoltage = swvParamData;
+        //                break;
+        //            case SWV_PARAM_ADDR_INIT_VOLTAGE_OFFSET:
+        //                swvInitVoltageOffset = swvParamData;
+        //                break;
+        //            case SWV_PARAM_ADDR_FINAL_VOLTAGE_OFFSET:
+        //                swvFinalVoltageOffset = swvParamData;
+        //                break;
+                //ampero
+                case SWV_PARAM_ADDR_AMPERO_POINTS:
+                    amperoPoints = swvParamData;
+                    break;
+                case SWV_PARAM_ADDR_AMPERO_PERIOD:
+                    amperoPeriod = swvParamData;
+                    break;
+                case SWV_PARAM_ADDR_AMPERO_OFFSET_VOLTAGE:
+                    amperoOffsetVoltage = swvParamData;
+                    break;
+                case SWV_PARAM_ADDR_AMPERO_POTENTIAL_OFFSET:
+                    amperoPotentialOffset = swvParamData;
+                    break;
+            }
+          break;
+        default:
+            return;
+    }
 }
-
 
 /*
  * @brief   Handle a CCCD (configuration change) write received from a peer
@@ -1365,7 +1359,6 @@ void user_DataService_CfgChangeHandler(char_data_t *pCharData)
   }
 }
 
-
 /*
  * @brief   Process an incoming BLE stack message.
  *
@@ -1411,7 +1404,6 @@ static uint8_t ProjectZero_processStackMsg(ICall_Hdr *pMsg)
 
   return (safeToDealloc);
 }
-
 
 /*
  * @brief   Process GATT messages and events.
@@ -1468,9 +1460,6 @@ static uint8_t ProjectZero_processGATTMsg(gattMsgEvent_t *pMsg)
   // It's safe to free the incoming message
   return (TRUE);
 }
-
-
-
 
 /*
  *  Application error handling functions
@@ -1564,7 +1553,6 @@ static void ProjectZero_freeAttRsp(uint8_t status)
  *
  ****************************************************************************
  *****************************************************************************/
-
 
 /*
  *  Callbacks from the Stack Task context (GAP or Service changes)
@@ -1798,7 +1786,7 @@ static void buttonCallbackFxn(PIN_Handle handle, PIN_Id pinId)
 /******************************************************************************
  *****************************************************************************
  *
- *  Utility functions
+ *Utility functions
  *
  ****************************************************************************
  *****************************************************************************/
@@ -1953,7 +1941,6 @@ static char *Util_convertArrayToHexString(uint8_t const *src, uint8_t src_len,
  *
  * @return  Pointer to null-terminated string with the adv local name.
  */
-
 #if !defined(xdc_runtime_Log_DISABLE_ALL)
 static char *Util_getLocalNameStr(const uint8_t *data) {
   uint8_t nuggetLen = 0;
@@ -2021,17 +2008,20 @@ int AMPERO_Meas02(void)
 
     //DAC initial value A and B (set offset voltage)
     dacDataLSB = amperoOffsetVoltageLSB;
+#if !defined(DEV_KIT)
     ret = DAC_SPI_WriteReg(DAC_CMD_WRITEUPDATE_AB, dacDataLSB);
     if (ret) return -1;
+#endif
 
     delay_ms(100);
 
     //DAC initial value A
     amperoVreDataLSB = amperoPotentialOffsetLSB;
     dacDataLSB = calcDacDataLSB(0, amperoVreDataLSB);
+#if !defined(DEV_KIT)
     ret = DAC_SPI_WriteReg(DAC_CMD_WRITEUPDATE_A, dacDataLSB);
     if (ret) return -1;
-
+#endif
     delay_ms(100);
 
     amperoStopFlag = 0;
@@ -2095,8 +2085,10 @@ int AMPERO_Meas02(void)
 
     //initial value; only offset (apply 0 V)
     dacDataLSB = amperoOffsetVoltageLSB;
+#if !defined(DEV_KIT)
     ret = DAC_SPI_WriteReg(DAC_CMD_WRITEUPDATE_A, dacDataLSB);
     if (ret) return -1;
+#endif
 
     //data set
     jtmp = 0;
@@ -2248,6 +2240,7 @@ int ADC_Data_Disp02(void)
     int itmp;
 
     //data exist?
+#if !defined(DEV_KIT)
     if (adcDataDisplayed == adcDataReady || adcDataReady == 0)
     {
         adcDataDisplayed = 0;
@@ -2255,6 +2248,7 @@ int ADC_Data_Disp02(void)
         Log_error2("No ADC data: %d / %d", adcDataDisplayed, adcDataReady );
         return -1;
     }
+#endif
 
     //init
     for (itmp=0; itmp<40; itmp++)
@@ -2533,7 +2527,6 @@ int ADC_Init(void)
     scifOsalRegisterCtrlReadyCallback(scCtrlReadyCallback);
     scifOsalRegisterTaskAlertCallback(scTaskAlertCallback);
     scifInit(&scifDriverSetup);
-
     return 0;
 }
 
@@ -2633,12 +2626,16 @@ void scCtrlReadyCallback(void) {
 /////////////////////////////////////////////////////////////////////
 int DAC_SPI_Init(void)
 {
+#ifdef DEV_KIT
+    return 0;   //don't have anything to initialize so we fake it
+#else
     int ret;
     static unsigned short data;
 
     static unsigned short dacLSBuV      = DAC_REF_VOLTAGE*1000/DAC_RESOLUTION*DAC_GAIN;
     unsigned short dacDefaultVoutALSB   = DAC_DEFAULT_VOUT_A*1000/dacLSBuV;
     unsigned short dacDefaultVoutBLSB   = dacDefaultVoutALSB;
+
 
     //open spi
     bspSpiOpen();
@@ -2664,6 +2661,7 @@ int DAC_SPI_Init(void)
     if (ret) return -1;
 
     return 0;
+#endif
 }
 
 /////////////////////////////////////////////////////////////////////

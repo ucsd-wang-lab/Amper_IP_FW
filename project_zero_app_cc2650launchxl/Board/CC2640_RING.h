@@ -59,6 +59,8 @@ extern const PIN_Config BoardGpioInitTable[];
 /** ============================================================================
  *  Defines
  *  ==========================================================================*/
+//define when using dev kit
+#define DEV_KIT 1
 
 /* Identify as CC2650 LaunchPad */
 #define CC2650LP
@@ -75,20 +77,30 @@ extern const PIN_Config BoardGpioInitTable[];
  */
 
 /* Discrete outputs */
+#ifdef DEV_KIT
+#define Board_RLED                  IOID_6
+#define Board_GLED                  IOID_7
+#else
 #define Board_RLED                  IOID_3
 #define Board_GLED                  PIN_UNASSIGNED
+#endif
 #define Board_LED_ON                1
 #define Board_LED_OFF               0
 
 /* Discrete inputs */
+#ifdef DEV_KIT
 #define Board_BTN1                  IOID_13
-#define Board_BTN2                  IOID_12
+#define Board_BTN2                  IOID_14
+#else
+#define Board_BTN1                  IOID_13
+#define Board_BTN2                  PIN_UNASSIGNED
+#endif
 
 /* UART Board */
 #define Board_UART_RX               PIN_UNASSIGNED          /* RXD  */
 #define Board_UART_TX               PIN_UNASSIGNED          /* TXD  */
-#define Board_UART_CTS              IOID_19                 /* CTS  */
-#define Board_UART_RTS              IOID_18                 /* RTS */
+#define Board_UART_CTS              PIN_UNASSIGNED          /* CTS  */
+#define Board_UART_RTS              PIN_UNASSIGNED          /* RTS */
 
 /* SPI Board */
 #define Board_SPI0_MISO             IOID_4          /* RF1. */
@@ -151,7 +163,7 @@ extern const PIN_Config BoardGpioInitTable[];
 #define Board_PWMPIN6                       PIN_UNASSIGNED
 #define Board_PWMPIN7                       PIN_UNASSIGNED
 
- /* Board ADC Pin */
+/* Board ADC Pin */
  #define Board_ADC_IN0               IOID_12
 
 /** ============================================================================
