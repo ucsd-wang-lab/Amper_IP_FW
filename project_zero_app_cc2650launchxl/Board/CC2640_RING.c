@@ -598,10 +598,20 @@ const ADCBuf_Config ADCBuf_config[] = {
 /* ADC objects */
 ADCCC26XX_Object adcCC26xxObjects[CC2650_LAUNCHXL_ADCCOUNT];
 
-
+//#ifdef DEV_KIT
+//        .adcDIO = Board_DIO23_ANALOG,
+//#else
+//        .adcDIO = IOID_12,
+//#endif
+//        .adcCompBInput = ADC_COMPB_IN_AUXIO7,
+//        .refSource = ADCCC26XX_FIXED_REFERENCE,
+//        .samplingDuration = ADCCC26XX_SAMPLING_DURATION_2P7_US,
+//        .inputScalingEnabled = true,
+//        .triggerSource = ADCCC26XX_TRIGGER_MANUAL
+//    },
 const ADCCC26XX_HWAttrs adcCC26xxHWAttrs[CC2650_LAUNCHXL_ADCCOUNT] = {
     {
-        .adcDIO = Board_DIO23_ANALOG,
+        .adcDIO = IOID_12,
         .adcCompBInput = ADC_COMPB_IN_AUXIO7,
         .refSource = ADCCC26XX_FIXED_REFERENCE,
         .samplingDuration = ADCCC26XX_SAMPLING_DURATION_2P7_US,

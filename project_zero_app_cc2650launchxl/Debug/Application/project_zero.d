@@ -219,6 +219,8 @@ Application/project_zero.obj: C:/Lab/Flex_IP/Firmware/Ampero_IP/project_zero_app
 Application/project_zero.obj: C:/Lab/Flex_IP/Firmware/Ampero_IP/project_zero_app_cc2650launchxl/Profiles/Data_Service.h
 Application/project_zero.obj: C:/ti/tirtos_cc13xx_cc26xx_2_20_01_08/products/tidrivers_cc13xx_cc26xx_2_20_01_10/packages/ti/drivers/SPI.h
 Application/project_zero.obj: C:/ti/ccsv8/tools/compiler/ti-cgt-arm_5.2.6/include/stddef.h
+Application/project_zero.obj: C:/ti/tirtos_cc13xx_cc26xx_2_20_01_08/products/tidrivers_cc13xx_cc26xx_2_20_01_10/packages/ti/drivers/ADC.h
+Application/project_zero.obj: C:/ti/ccsv8/tools/compiler/ti-cgt-arm_5.2.6/include/stddef.h
 Application/project_zero.obj: ../Application/scif_osal_tirtos.h
 Application/project_zero.obj: ../Application/scif_framework.h
 Application/project_zero.obj: ../Application/scif.h
@@ -443,6 +445,8 @@ C:/Lab/Flex_IP/Firmware/Ampero_IP/project_zero_app_cc2650launchxl/Profiles/LED_S
 C:/Lab/Flex_IP/Firmware/Ampero_IP/project_zero_app_cc2650launchxl/Profiles/Button_Service.h: 
 C:/Lab/Flex_IP/Firmware/Ampero_IP/project_zero_app_cc2650launchxl/Profiles/Data_Service.h: 
 C:/ti/tirtos_cc13xx_cc26xx_2_20_01_08/products/tidrivers_cc13xx_cc26xx_2_20_01_10/packages/ti/drivers/SPI.h: 
+C:/ti/ccsv8/tools/compiler/ti-cgt-arm_5.2.6/include/stddef.h: 
+C:/ti/tirtos_cc13xx_cc26xx_2_20_01_08/products/tidrivers_cc13xx_cc26xx_2_20_01_10/packages/ti/drivers/ADC.h: 
 C:/ti/ccsv8/tools/compiler/ti-cgt-arm_5.2.6/include/stddef.h: 
 ../Application/scif_osal_tirtos.h: 
 ../Application/scif_framework.h: 

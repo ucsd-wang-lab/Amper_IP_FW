@@ -59,9 +59,11 @@ extern const PIN_Config BoardGpioInitTable[];
 /** ============================================================================
  *  Defines
  *  ==========================================================================*/
+//CJB settings
 //define when using dev kit
-#define DEV_KIT 1
-
+//#define DEV_KIT 1
+//#define NEW_ADC 1   //uses simple ADC, not sensor controller data logger
+#define USE_DAC 1 //use the DAC, for debug only, DAC needed for operation
 /* Identify as CC2650 LaunchPad */
 #define CC2650LP
 
@@ -129,7 +131,7 @@ extern const PIN_Config BoardGpioInitTable[];
 /* Booster pack generic */
 #define Board_DIO0                  PIN_UNASSIGNED
 #define Board_DIO1_RFSW             PIN_UNASSIGNED
-#define Board_DIO12                 PIN_UNASSIGNED
+//#define Board_DIO12                 PIN_UNASSIGNED
 #define Board_DIO15                 PIN_UNASSIGNED
 #define Board_DIO16_TDO             PIN_UNASSIGNED
 #define Board_DIO17_TDI             PIN_UNASSIGNED
@@ -164,7 +166,15 @@ extern const PIN_Config BoardGpioInitTable[];
 #define Board_PWMPIN7                       PIN_UNASSIGNED
 
 /* Board ADC Pin */
- #define Board_ADC_IN0               IOID_12
+#define     Board_ADC0              CC2650_LAUNCHXL_ADC0
+#define     Board_ADCBuf0           CC2650_LAUNCHXL_ADCBuf0
+#define     Board_ADCBufChannel0    (0)
+
+#ifdef DEV_KIT
+#define Board_ADC_IN0               IOID_23
+#else
+#define Board_ADC_IN0               IOID_12
+#endif
 
 /** ============================================================================
  *  Instance identifiers

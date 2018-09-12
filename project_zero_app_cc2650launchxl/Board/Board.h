@@ -64,6 +64,8 @@ extern "C" {
 #define     Board_initSPI()         SPI_init()
 #define     Board_initUART()        UART_init()
 #define     Board_initWatchdog()    Watchdog_init()
+#define     Board_initADCBuf()      ADCBuf_init()
+#define     Board_initADC()         ADC_init()
 #define     GPIO_toggle(n)
 #define     GPIO_write(n,m)
 

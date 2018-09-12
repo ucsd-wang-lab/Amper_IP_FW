@@ -73,6 +73,7 @@
 //include SPI
 #include <ti/drivers/SPI.h>
 //include ADC
+#include "ti/drivers/ADC.h"
 #include "scif_osal_tirtos.h"
 #include "scif_framework.h"
 #include "scif.h"
@@ -81,8 +82,6 @@
 /*********************************************************************
  * CONSTANTS
  */
-
-
 // Advertising interval when device is discoverable (units of 625us, 160=100ms)
 #define DEFAULT_ADVERTISING_INTERVAL          160
 
@@ -215,7 +214,6 @@ static uint8_t attDeviceName[GAP_DEVICE_NAME_LEN] = "Amp Jul18_01";
 static gattMsgEvent_t *pAttRsp = NULL;
 static uint8_t rspTxRetry = 0;
 
-
 /* Pin driver handles */
 static PIN_Handle buttonPinHandle;
 static PIN_Handle ledPinHandle;
@@ -234,7 +232,9 @@ static PIN_State adcPinState;
  */
 PIN_Config ledPinTable[] = {
   Board_LED0 | PIN_GPIO_OUTPUT_EN | PIN_GPIO_LOW | PIN_PUSHPULL | PIN_DRVSTR_MAX,
+#ifdef DEV_KIT
   Board_LED1 | PIN_GPIO_OUTPUT_EN | PIN_GPIO_LOW | PIN_PUSHPULL | PIN_DRVSTR_MAX,
+#endif
   PIN_TERMINATE
 };
 
@@ -254,9 +254,11 @@ PIN_Config daccsPinTable[] = {
  *   - ADC input
  */
 PIN_Config adcPinTable[] = {
-  Board_ADC_IN0      | PIN_INPUT_DIS | PIN_GPIO_OUTPUT_DIS ,
+  Board_ADC_IN0 | PIN_INPUT_DIS | PIN_GPIO_OUTPUT_DIS ,
   PIN_TERMINATE
 };
+
+ADC_Handle adc;
 
 /*
  * Application button pin configuration table:
@@ -283,7 +285,7 @@ static unsigned short adcDataDisplayed = 0;
 static unsigned short adcValue[SWV_ADC_BUFFER_SIZE];
 //adc data definition
 #define AMPERO_ADC_BUFFER_SIZE 32 //ADC buffer size
-static unsigned short amperoAdcValue[AMPERO_ADC_BUFFER_SIZE];
+static uint16_t amperoAdcValue[AMPERO_ADC_BUFFER_SIZE];
 
 //control definition
 #define SWV_CTRL_LED_OFF        0x00
@@ -446,17 +448,20 @@ static void buttonCallbackFxn(PIN_Handle handle, PIN_Id pinId);
 
 static char *Util_convertArrayToHexString(uint8_t const *src, uint8_t src_len,
                                           uint8_t *dst, uint8_t dst_len);
+
+//ADC channel
+ADC_Handle adc_chan;
+
 #if !defined(xdc_runtime_Log_DISABLE_ALL)
 static char *Util_getLocalNameStr(const uint8_t *data);//only needed for logging
 #endif
-// t.n.tmp functions
 unsigned short calcDacDataLSB(unsigned short swvOffsetVoltageLSB, unsigned short swvVreDataLSB);
 unsigned short calcDacDataLSBInt(int cvOffsetVoltageLSB, int cvVreDataLSB);
-int AMPERO_Meas02(void);   //t.n.tmp 170227
-int AMPERO_Meas01(void);   //t.n.tmp 170131
+int AMPERO_Meas02(void);
+int AMPERO_Meas01(void);
 int CV_Meas01(void);
-int SWV_Meas07(void);   //t.n.tmp 170210
-int SWV_Meas06(void);   //t.n.tmp 170131
+int SWV_Meas07(void);
+int SWV_Meas06(void);
 int SWV_Meas05(void);
 int SWV_Meas04(void);
 int SWV_Meas03(void);
@@ -465,7 +470,8 @@ int SWV_Meas01(void);
 int ADC_Data_Disp02(void);
 int ADC_Data_Disp01(void);
 int ADC_Init(void);
-unsigned short ADC_Sample(void);
+uint16_t measADC(void); //new
+unsigned short ADC_Sample(void);    //old
 int DAC_SPI_SWV(void);
 int DAC_SPI_Init(void);
 int DAC_SPI_WriteUpdateA(unsigned short data);
@@ -542,6 +548,7 @@ void ProjectZero_createTask(void)
   taskParams.priority = PRZ_TASK_PRIORITY;
 
   Task_construct(&przTask, ProjectZero_taskFxn, &taskParams, NULL);
+
 }
 
 /*
@@ -579,7 +586,6 @@ static void ProjectZero_init(void)
     Log_error0("Error initializing board LED pins");
     Task_exit();
   }
-
 
   //pen DAC chip select pins
   // Open DAC chip select pins
@@ -626,10 +632,23 @@ static void ProjectZero_init(void)
   Clock_construct(&button1DebounceClock, buttonDebounceSwiFxn,
                   50 * (1000/Clock_tickPeriod),
                   &clockParams);
-#if !defined(DEV_KIT)
+#ifdef USE_DAC
   //SPI, ADC init
-  Log_info0("SPI, ADC init");
+  Log_info0("DAC/SPI init");
   DAC_SPI_Init();
+#endif
+#ifdef NEW_ADC
+  /* Open ADC Driver */
+  Log_info0("ADC init");
+  Board_initADC();
+  ADC_Params params;
+  ADC_Params_init(&params);
+  adc = ADC_open(Board_ADC0, &params);
+  if (adc == NULL) {
+      Log_error0("Error initializing ADC channel 0");
+      Task_exit();
+  }
+#else
   ADC_Init();
 #endif
 
@@ -642,16 +661,35 @@ static void ProjectZero_init(void)
 //
 //  for (int i = 0; i < 300; i++)
 //  {
-//
 //      //dac AB write data and update
 //      data = i*10*1000/dacLSBuV;;
 //      ret = DAC_SPI_WriteReg(DAC_CMD_WRITEUPDATE_AB, data);
 //      if (ret) break;
-//
 //      delay_ms(100);
 //  }
-
-  //2018 - CJB Testing----------------------------------------------
+//  2018 - CJB ADC Testing----------------------------------------------
+//  int_fast16_t res;
+//  uint16_t adcValue;
+//  for (uint8_t i = 0; i < 10; i++)
+//  {
+//      res = ADC_convert(adc, &adcValue);
+//      if (res == ADC_STATUS_SUCCESS)
+//      {
+//
+//          if(adcValue >= 100)
+//          {  // arbitrary threshold
+//              PIN_setOutputValue(ledPinHandle, Board_LED1, 1);
+//          } else
+//          {
+//              PIN_setOutputValue(ledPinHandle, Board_LED1, 0);
+//          }
+//      }
+//      else
+//      {
+//          //failed ADC conversion
+//      }
+//  }
+//2018 - CJB Testing----------------------------------------------
   // ******************************************************************
   // BLE Stack initialization
   // ******************************************************************
@@ -757,9 +795,6 @@ static void ProjectZero_init(void)
 
   // Register for GATT local events and ATT Responses pending for transmission
   GATT_RegisterForMsgs(selfEntity);
-
-  //Turn on LED to show MCU is alive
-  PIN_setOutputValue(ledPinHandle, Board_LED0, 1);
 }
 
 
@@ -935,7 +970,6 @@ static void user_processApplicationMessage(app_msg_t *pMsg)
  ****************************************************************************
  *****************************************************************************/
 
-
 /*
  * @brief   Process a pending GAP Role state change event.
  *
@@ -977,6 +1011,8 @@ static void user_processGapStateChangeEvt(gaprole_States_t newState)
       break;
 
     case GAPROLE_ADVERTISING:
+        //Turn on LED to show MCU is alive
+      PIN_setOutputValue(ledPinHandle, Board_LED0, 1);
       Log_info0("Advertising");
       break;
 
@@ -985,6 +1021,7 @@ static void user_processGapStateChangeEvt(gaprole_States_t newState)
         uint8_t peerAddress[B_ADDR_LEN];
         GAPRole_GetParameter(GAPROLE_CONN_BD_ADDR, peerAddress);
         char *cstr_peerAddress = Util_convertBdAddr2Str(peerAddress);
+        PIN_setOutputValue(ledPinHandle, Board_LED0, 0);
         Log_info1("Connected. Peer address: \x1b[32m%s\x1b[0m", (IArg)cstr_peerAddress);
        }
       break;
@@ -1009,7 +1046,6 @@ static void user_processGapStateChangeEvt(gaprole_States_t newState)
       break;
   }
 }
-
 
 /*
  * @brief   Handle a debounced button press or release in Task context.
@@ -1083,7 +1119,9 @@ void user_LedService_ValueChangeHandler(char_data_t *pCharData)
             {
                 case SWV_CTRL_LED_OFF:
                     PIN_setOutputValue(ledPinHandle, Board_LED0, pCharData->data[0]);
+#ifdef DEV_KIT
                     PIN_setOutputValue(ledPinHandle, Board_LED1, pCharData->data[0]);
+#endif
                     break;
                 case SWV_CTRL_LED_ON:
                     PIN_setOutputValue(ledPinHandle, Board_LED0, pCharData->data[0]);
@@ -1091,7 +1129,11 @@ void user_LedService_ValueChangeHandler(char_data_t *pCharData)
                 case SWV_CTRL_SPIADC_INIT:  //used in ampero
                     Log_info0("SPI, ADC init");
                     DAC_SPI_Init();
+#ifdef NEW_ADC
+                    ADC_init();
+#else
                     ADC_Init();
+#endif
                     break;
         //            case SWV_CTRL_SWV_MEAS:
         //                DataService_SetParameter(DS_STRING_ID, sizeof("Measuring SWV!!!"), "Measuring SWV!!!");
@@ -1134,14 +1176,18 @@ void user_LedService_ValueChangeHandler(char_data_t *pCharData)
                     }
                     break;
                 case SWV_CTRL_AMPERO_MEAS:
+#ifdef DEV_KIT
                     PIN_setOutputValue(ledPinHandle, Board_LED1, 1);
+#endif
                     DataService_SetParameter(DS_STRING_ID, sizeof("Measuring Ampero!!!"), "Measuring Ampero!!!");
                     //AMPERO_Meas01();
                     AMPERO_Meas02();
                     break;
                 case SWV_CTRL_AMPERO_STOP:
                     amperoStopFlag = 1;
+#ifdef DEV_KIT
                     PIN_setOutputValue(ledPinHandle, Board_LED1, 0);
+#endif
                     break;
             }
           break;
@@ -1220,7 +1266,7 @@ void user_LedService_ValueChangeHandler(char_data_t *pCharData)
 void user_ButtonService_CfgChangeHandler(char_data_t *pCharData)
 {
   // Cast received data to uint16, as that's the format for CCCD writes.
-#if !defined(xdc_runtime_Log_DISABLE_ALL)
+#if (xdc_runtime_Log_DISABLE_ALL == 0)
   uint16_t configValue = *(uint16_t *)pCharData->data;
   char *configValString;
 
@@ -1326,7 +1372,7 @@ void user_DataService_ValueChangeHandler(char_data_t *pCharData)
 void user_DataService_CfgChangeHandler(char_data_t *pCharData)
 {
   // Cast received data to uint16, as that's the format for CCCD writes.
-#if !defined(xdc_runtime_Log_DISABLE_ALL)
+#if (xdc_runtime_Log_DISABLE_ALL == 0)
   uint16_t configValue = *(uint16_t *)pCharData->data;
   char *configValString;
 
@@ -1700,8 +1746,11 @@ static void buttonDebounceSwiFxn(UArg buttonId)
         //t.n.tmp 161104
         DAC_SPI_Init();
         //DAC_SPI_SWV();
-        //t.n.tmp 161111
+#ifdef NEW_ADC
+        ADC_init();
+#else
         ADC_Init();
+#endif
       }
       else if (!buttonPinVal && !button0State)
       {
@@ -1976,9 +2025,9 @@ int AMPERO_Meas02(void)
     int itmp;
     int jtmp;
     int numtmp;
-    uint8_t testString[40];
+    uint8_t dataString[40];
 
-#if !defined(xdc_runtime_Log_DISABLE_ALL)
+#if (xdc_runtime_Log_DISABLE_ALL == 0)
     //used in logging
     unsigned short tail = 0;
     unsigned short head = 0;
@@ -2003,12 +2052,12 @@ int AMPERO_Meas02(void)
     //string init
     for (itmp=0; itmp<40; itmp++)
     {
-        testString[itmp] = 0xFF;
+        dataString[itmp] = 0xFF;
     }
 
     //DAC initial value A and B (set offset voltage)
     dacDataLSB = amperoOffsetVoltageLSB;
-#if !defined(DEV_KIT)
+#ifdef USE_DAC
     ret = DAC_SPI_WriteReg(DAC_CMD_WRITEUPDATE_AB, dacDataLSB);
     if (ret) return -1;
 #endif
@@ -2018,7 +2067,7 @@ int AMPERO_Meas02(void)
     //DAC initial value A
     amperoVreDataLSB = amperoPotentialOffsetLSB;
     dacDataLSB = calcDacDataLSB(0, amperoVreDataLSB);
-#if !defined(DEV_KIT)
+#ifdef USE_DAC
     ret = DAC_SPI_WriteReg(DAC_CMD_WRITEUPDATE_A, dacDataLSB);
     if (ret) return -1;
 #endif
@@ -2030,7 +2079,10 @@ int AMPERO_Meas02(void)
     while ( adcDataNumTotal < amperoPoints )
     {
         //stop flag check and break
-        if (amperoStopFlag == 1) break;
+        if (amperoStopFlag == 1)
+        {
+            break;
+        }
 
         //toggle LED
         if (PIN_getOutputValue(Board_LED0))
@@ -2041,8 +2093,11 @@ int AMPERO_Meas02(void)
         {
             PIN_setOutputValue(ledPinHandle, Board_LED0, 1);
         }
-
+#ifdef NEW_ADC
+        amperoAdcValue[adcDataNumTmp] = measADC();
+#else
         amperoAdcValue[adcDataNumTmp] = ADC_Sample();
+#endif
         adcDataNumTmp++;
         if ( adcDataNumTmp >= AMPERO_ADC_BUFFER_SIZE )
         {
@@ -2056,12 +2111,12 @@ int AMPERO_Meas02(void)
         //update data
         //header
         jtmp = 0;
-        testString[jtmp*2] = 'A';   //Amperometry
-        testString[jtmp*2+1] = 'M'; //Measuring
+        dataString[jtmp*2] = 'A';   //Amperometry
+        dataString[jtmp*2+1] = 'M'; //Measuring
 
         jtmp = 1;   //data no.
-        testString[jtmp*2] = 0x00FF&adcDataNumTotal;
-        testString[jtmp*2+1] = 0x00FF&(adcDataNumTotal>>8);
+        dataString[jtmp*2] = 0x00FF&adcDataNumTotal;
+        dataString[jtmp*2+1] = 0x00FF&(adcDataNumTotal>>8);
 
         //data
         for (jtmp=2; jtmp<20; jtmp++)
@@ -2071,30 +2126,30 @@ int AMPERO_Meas02(void)
             {
                 numtmp += AMPERO_ADC_BUFFER_SIZE;
             }
-            testString[jtmp*2] = 0x00FF&amperoAdcValue[numtmp];
-            testString[jtmp*2+1] = 0x00FF&(amperoAdcValue[numtmp]>>8);
+            dataString[jtmp*2] = 0x00FF&amperoAdcValue[numtmp];
+            dataString[jtmp*2+1] = 0x00FF&(amperoAdcValue[numtmp]>>8);
         }
 
-        DataService_SetParameter(DS_STRING_ID, sizeof(testString), testString);
+        DataService_SetParameter(DS_STRING_ID, sizeof(dataString), dataString);
         Log_info2("ADC data total (ready to send): %d (%d)", adcDataNumTmp, jtmp );
 
     }
 
-    //ensure LED is on following measurement
-    PIN_setOutputValue(ledPinHandle, Board_LED0, 1);
+    //ensure LED is off following measurement
+    PIN_setOutputValue(ledPinHandle, Board_LED0, 0);
 
     //initial value; only offset (apply 0 V)
     dacDataLSB = amperoOffsetVoltageLSB;
-#if !defined(DEV_KIT)
+#ifdef USE_DAC
     ret = DAC_SPI_WriteReg(DAC_CMD_WRITEUPDATE_A, dacDataLSB);
     if (ret) return -1;
 #endif
 
     //data set
     jtmp = 0;
-    testString[jtmp*2] = 'A';   //Amperometry
-    testString[jtmp*2+1] = 'F'; //Finished
-    DataService_SetParameter(DS_STRING_ID, sizeof(testString), testString);
+    dataString[jtmp*2] = 'A';   //Amperometry
+    dataString[jtmp*2+1] = 'F'; //Finished
+    DataService_SetParameter(DS_STRING_ID, sizeof(dataString), dataString);
 
     //log
     Log_info3("ADC result: adc %d, head %d, tail %d",
@@ -2547,8 +2602,14 @@ unsigned short ADC_Sample(void)
 
     // Fetch the current head index
     head = scifTaskData.adcDataLogger.output.head;
-    if (head>0) value = scifTaskData.adcDataLogger.output.pSamples[head-1];
-    else value = 9999;
+    if (head>0)
+    {
+        value = scifTaskData.adcDataLogger.output.pSamples[head-1];
+    }
+    else
+    {
+        value = 9999;
+    }
 
     //ADC stop
     if (scifStopTasksNbl(BV(SCIF_ADC_DATA_LOGGER_TASK_ID)) == SCIF_SUCCESS)
@@ -2561,6 +2622,25 @@ unsigned short ADC_Sample(void)
 
     return value;
 }
+
+//Measure ADC - new
+uint16_t measADC(void)
+{
+    //Output = Input (V) * 4096 / (ADC range (4.3V))
+    //make sure ADC_init(), and ADC_open() have been called before use
+    int_fast16_t res;
+    uint16_t adcValue;
+    res = ADC_convert(adc, &adcValue);
+    if (res == ADC_STATUS_SUCCESS)
+    {
+        return adcValue;
+    }
+    else
+    {
+        return 0;
+    }
+}
+
 
 /////////////////////////////////////////////////////////////////////
 // scTaskAlertCallback
@@ -2626,9 +2706,7 @@ void scCtrlReadyCallback(void) {
 /////////////////////////////////////////////////////////////////////
 int DAC_SPI_Init(void)
 {
-#ifdef DEV_KIT
-    return 0;   //don't have anything to initialize so we fake it
-#else
+#ifdef USE_DAC
     int ret;
     static unsigned short data;
 
@@ -2660,6 +2738,8 @@ int DAC_SPI_Init(void)
     ret = DAC_SPI_WriteReg(DAC_CMD_POWERCNTROL_AB, DAC_DATA_POWERCNTROL_AB_ON);
     if (ret) return -1;
 
+    return 0;
+#else
     return 0;
 #endif
 }

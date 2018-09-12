@@ -48,7 +48,7 @@
  * INCLUDES
  */
 #include <xdc/runtime/Error.h>
-#define xdc_runtime_Log_DISABLE_ALL 1  // Add to disable logs from this file
+//#define xdc_runtime_Log_DISABLE_ALL 1  // Add to disable logs from this file
 #include <ti/drivers/Power.h>
 #include <ti/drivers/power/PowerCC26XX.h>
 #include <ti/sysbios/BIOS.h>

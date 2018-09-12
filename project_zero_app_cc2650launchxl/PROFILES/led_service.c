@@ -47,7 +47,7 @@
  */
 #include <string.h>
 
-#define xdc_runtime_Log_DISABLE_ALL 1  // Add to disable logs from this file
+//#define xdc_runtime_Log_DISABLE_ALL 1  // Add to disable logs from this file
 #include <xdc/runtime/Log.h>
 #include <xdc/runtime/Diags.h>
 

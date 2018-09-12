@@ -109,6 +109,7 @@
 #include <stdbool.h>
 #include "scif_framework.h"
 #include "scif_osal_tirtos.h"
+#include "Board.h"
 
 
 /// Target chip name
@@ -126,7 +127,7 @@
 /// ADC Data Logger: ADC sample buffer size
 #define SCIF_ADC_DATA_LOGGER_BUFFER_SIZE 128
 /// ADC Data Logger I/O mapping: Analog sensor output
-#define SCIF_ADC_DATA_LOGGER_DIO_A_SENSOR_OUTPUT 12
+#define SCIF_ADC_DATA_LOGGER_DIO_A_SENSOR_OUTPUT Board_ADC_IN0
 
 
 // All shared data structures in AUX RAM need to be packed
