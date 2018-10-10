@@ -84,7 +84,7 @@ extern const PIN_Config BoardGpioInitTable[];
 #define Board_GLED                  IOID_7
 #else
 #define Board_RLED                  IOID_3
-#define Board_GLED                  PIN_UNASSIGNED
+#define Board_GLED                  IOID_4
 #endif
 #define Board_LED_ON                1
 #define Board_LED_OFF               0
@@ -105,9 +105,9 @@ extern const PIN_Config BoardGpioInitTable[];
 #define Board_UART_RTS              PIN_UNASSIGNED          /* RTS */
 
 /* SPI Board */
-#define Board_SPI0_MISO             IOID_4          /* RF1. */
-#define Board_SPI0_MOSI             IOID_0          /* RF1. */
-#define Board_SPI0_CLK              IOID_1         /* RF1. */
+#define Board_SPI0_MISO             PIN_UNASSIGNED
+#define Board_SPI0_MOSI             IOID_0          /* DAC. */
+#define Board_SPI0_CLK              IOID_1          /* DAC. */
 #define Board_SPI0_CSN              PIN_UNASSIGNED
 #define Board_SPI1_MISO             PIN_UNASSIGNED
 #define Board_SPI1_MOSI             PIN_UNASSIGNED

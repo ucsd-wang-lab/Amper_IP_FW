@@ -232,9 +232,7 @@ static PIN_State adcPinState;
  */
 PIN_Config ledPinTable[] = {
   Board_LED0 | PIN_GPIO_OUTPUT_EN | PIN_GPIO_LOW | PIN_PUSHPULL | PIN_DRVSTR_MAX,
-#ifdef DEV_KIT
   Board_LED1 | PIN_GPIO_OUTPUT_EN | PIN_GPIO_LOW | PIN_PUSHPULL | PIN_DRVSTR_MAX,
-#endif
   PIN_TERMINATE
 };
 
@@ -247,6 +245,7 @@ PIN_Config daccsPinTable[] = {
   Board_SPI0_DAC_CSN | PIN_GPIO_OUTPUT_EN | PIN_GPIO_HIGH | PIN_PUSHPULL | PIN_DRVSTR_MIN,
   PIN_TERMINATE
 };
+
 
 //ADC pin configuration table
 /*
@@ -278,12 +277,12 @@ static Clock_Struct button1DebounceClock;
 static uint8_t button0State = 0;
 static uint8_t button1State = 0;
 
-//adc data sengen
+//ADC data sengen
 #define SWV_ADC_BUFFER_SIZE 512 //ADC buffer size
 static unsigned short adcDataReady = 0;
 static unsigned short adcDataDisplayed = 0;
 static unsigned short adcValue[SWV_ADC_BUFFER_SIZE];
-//adc data definition
+//ADC data definition
 #define AMPERO_ADC_BUFFER_SIZE 32 //ADC buffer size
 static uint16_t amperoAdcValue[AMPERO_ADC_BUFFER_SIZE];
 
@@ -635,6 +634,7 @@ static void ProjectZero_init(void)
 #ifdef USE_DAC
   //SPI, ADC init
   Log_info0("DAC/SPI init");
+  SPI_init();
   DAC_SPI_Init();
 #endif
 #ifdef NEW_ADC
@@ -1013,6 +1013,7 @@ static void user_processGapStateChangeEvt(gaprole_States_t newState)
     case GAPROLE_ADVERTISING:
         //Turn on LED to show MCU is alive
       PIN_setOutputValue(ledPinHandle, Board_LED0, 1);
+      PIN_setOutputValue(ledPinHandle, Board_LED1, 1);
       Log_info0("Advertising");
       break;
 
